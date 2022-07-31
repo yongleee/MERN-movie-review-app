@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const reviewRoutes = require("./routes/reviews");
+const movieRoutes = require("./routes/movies");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/movies", movieRoutes);
 
 // Connects to the database, async function
 // Only listens to the request once it is connected to the database

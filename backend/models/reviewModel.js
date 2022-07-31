@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Movie = require("./movieModel");
 
 const Schema = mongoose.Schema;
 
@@ -16,8 +17,15 @@ const reviewSchema = new Schema(
       type: Number,
       required: true,
     },
+    movie: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Movie",
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Review", reviewSchema);
+const Review = mongoose.model("Review", reviewSchema);
+
+module.exports = Review;
