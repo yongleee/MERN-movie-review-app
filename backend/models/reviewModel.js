@@ -1,14 +1,9 @@
 const mongoose = require("mongoose");
-const Movie = require("./movieModel");
 
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
     content: {
       type: String,
       required: true,

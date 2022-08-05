@@ -1,21 +1,21 @@
 const express = require("express");
 const {
-  createReviewAndMovie,
+  createReview,
   getReviews,
   getReview,
   deleteReview,
   updateReview,
-  getReviewByMovie,
+  getReviewsByMovie,
 } = require("../controllers/reviewController");
 
 const router = express.Router();
 
-router.route("/").get(getReviews).post(createReviewAndMovie);
+router.route("/").get(getReviews).post(createReview);
 
 router
   .route("/:id")
   .get(getReview)
-  .get(getReviewByMovie)
+  .get(getReviewsByMovie)
   .delete(deleteReview)
   .patch(updateReview);
 
