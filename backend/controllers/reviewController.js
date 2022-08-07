@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 
 // get all reviews
 const getReviews = async (req, res) => {
-  const reviews = await Review.find({}).sort({ createdAt: -1 });
+  const reviews = await Review.find({})
+    .sort({ createdAt: -1 })
+    .populate("movie");
 
   res.status(200).json(reviews);
 };
@@ -34,7 +36,7 @@ const getReviewsByMovie = async (req, res) => {
     return res.status(404).json({ error: "No such review" });
   }
 
-  const review = await Review.find({ movie: id });
+  const review = await Review.find({ movie: id }).populate("movie");
 
   if (!review) {
     return res.status(404).json({ error: "No such review" });

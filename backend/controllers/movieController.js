@@ -21,6 +21,22 @@ const getMovieID = async (req, res) => {
   }
 };
 
+const getMovieByID = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such movie" });
+  }
+
+  const movie = await Movie.findById(id);
+
+  if (!movie) {
+    return res.status(404).json({ error: "No such movie" });
+  }
+
+  res.status(200).json(movie);
+};
+
 // create new movie
 const createMovie = async (req, res) => {
   const { movieTitle } = req.body;
@@ -45,4 +61,27 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMovies, getMovieID, createMovie };
+// delete a movie
+const deleteMovie = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such movie" });
+  }
+
+  const movie = await Movie.findOneAndDelete({ _id: id });
+
+  if (!movie) {
+    return res.status(404).json({ error: "No such movie" });
+  }
+
+  res.status(200).json(movie);
+};
+
+module.exports = {
+  getMovies,
+  getMovieID,
+  getMovieByID,
+  createMovie,
+  deleteMovie,
+};
