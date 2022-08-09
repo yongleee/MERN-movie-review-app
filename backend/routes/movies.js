@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.route("/").get(getMovies).post(createMovie);
 
-router.route("/:id").get(getMovieByID).delete(deleteMovie);
+router.route("/id/:id").get(getMovieByID).delete(deleteMovie);
 
-router.route("/:title").get(getMovieID);
+router.route("/title/:title").get(getMovieID);
 
 module.exports = router;
