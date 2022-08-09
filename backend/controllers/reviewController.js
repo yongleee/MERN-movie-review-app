@@ -1,5 +1,4 @@
 const Review = require("../models/reviewModel");
-const Movie = require("../models/movieModel");
 const mongoose = require("mongoose");
 
 // get all reviews
@@ -19,7 +18,7 @@ const getReview = async (req, res) => {
     return res.status(404).json({ error: "No such review" });
   }
 
-  const review = await Review.findById(id);
+  const review = await Review.findById(id).populate("movie");
 
   if (!review) {
     return res.status(404).json({ error: "No such review" });
