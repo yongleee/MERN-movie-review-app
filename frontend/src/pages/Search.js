@@ -10,8 +10,6 @@ export default function Search() {
   const { searchId } = useParams();
   console.log(searchId);
 
-  //TODO: Learn about useeffect cleanup and see if it applies
-
   useEffect(() => {
     const fetchSearchMovies = async () => {
       const type = "search";

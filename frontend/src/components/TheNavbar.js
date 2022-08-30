@@ -11,7 +11,6 @@ const TheNavbar = () => {
     setSearchField(e.target.value);
   };
 
-  // TODO: Learn about outlet component
   // TODO: Create a notfound page using usenavigate
   const handleSubmit = (e) => {
     e.preventDefault();
