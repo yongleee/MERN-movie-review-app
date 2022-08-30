@@ -1,26 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MovieCards from "../components/MovieCards";
 import { useMoviesContext } from "../hooks/useMoviesContext";
+import axios from "axios";
 
-const Home = () => {
-  const { fetchMovies, movies, updateSearchKey } = useMoviesContext();
+export default function Home() {
+  const [discoverMovies, setDiscoverMovies] = useState([]);
+  const { API_URL } = useMoviesContext();
   console.log("home render");
 
   useEffect(() => {
-    updateSearchKey("");
-  }, [updateSearchKey]);
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+    const fetchDiscoverMovies = async () => {
+      const type = "discover";
+      const {
+        data: { results },
+      } = await axios.get(`${API_URL}/${type}/movie`, {
+        params: {
+          api_key: process.env.REACT_APP_MOVIE_API_KEY,
+        },
+      });
+      setDiscoverMovies(results);
+    };
+    fetchDiscoverMovies();
+  }, [API_URL]);
 
   return (
     <div>
-      {movies.map((movie) => (
+      {discoverMovies.map((movie) => (
         <MovieCards key={movie.id} movie={movie} />
       ))}
     </div>
   );
-};
-
-export default Home;
+}
