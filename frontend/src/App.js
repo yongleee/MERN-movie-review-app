@@ -1,19 +1,23 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import MoviePage from "./pages/MoviePage";
+import Search from "./pages/Search";
+import UserProfile from "./pages/UserProfile";
 import TheNavbar from "./components/TheNavbar";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <TheNavbar />
-        <div>
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </div>
+    <>
+      <TheNavbar />
+      <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user" element={<UserProfile />} />
+          <Route path="/search/:searchId" element={<Search />} />
+          <Route path="/movie/:movieId" element={<MoviePage />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 
