@@ -11,7 +11,6 @@ const TheNavbar = () => {
     setSearchField(e.target.value);
   };
 
-  // TODO: Create a notfound page using usenavigate
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/search/${searchField}`);
