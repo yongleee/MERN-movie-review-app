@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
 
-const MovieCards = ({ movie }) => {
-  const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
+export default function MovieCards({ movie }) {
+  const IMAGE_PATH = "https://image.tmdb.org/t/p/w200";
   // console.log(movie);
   return (
     <>
-      <Link to="/movie">
+      <Link to={`/movie/${movie.title}`} state={{ movie }}>
         <div className="movie-card">
           {movie.poster_path && (
-            <img src={`${IMAGE_PATH}${movie.poster_path}`} alt="" />
+            <img
+              src={`${IMAGE_PATH}${movie.poster_path}`}
+              alt={`Poster of ${movie.title}`}
+            />
           )}
           <h5>{movie.title}</h5>
         </div>
       </Link>
     </>
   );
-};
-
-export default MovieCards;
+}
