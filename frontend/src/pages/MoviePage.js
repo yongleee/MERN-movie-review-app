@@ -10,7 +10,7 @@ import axios from "axios";
 // TODO: get movie review
 // TODO: review list component
 export default function MoviePage() {
-  const [movieCredits, setMovieCredits] = useState([]);
+  const [movieCredits, setMovieCredits] = useState({});
   const [director, setDirector] = useState("");
   const { API_URL } = useMoviesContext();
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
@@ -26,13 +26,25 @@ export default function MoviePage() {
           api_key: process.env.REACT_APP_MOVIE_API_KEY,
         },
       });
-      setMovieCredits(data);
+      setMovieCredits((prevMovieCredits) => {
+        return { ...prevMovieCredits, ...data };
+      });
     };
+
     fetchMovieCredits();
   }, [API_URL, movie.id]);
 
-  const { crew } = movieCredits;
-  console.log(crew);
+  useEffect(() => {
+    const getDirector = () => {
+      const { crew } = movieCredits;
+      if (crew) {
+        const directorObj = crew.filter((c) => c.job === "Director");
+        setDirector(directorObj[0].name);
+      }
+    };
+
+    getDirector();
+  }, [movieCredits]);
 
   return (
     <>
