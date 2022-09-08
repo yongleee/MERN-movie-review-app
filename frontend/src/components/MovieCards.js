@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function MovieCards({ movie }) {
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w200";
-  // console.log(movie);
+
   return (
     <>
       <Link to={`/movie/${movie.title}`} state={{ movie }}>

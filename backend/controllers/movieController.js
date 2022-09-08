@@ -55,7 +55,7 @@ const createMovie = async (req, res) => {
   // add doc to db
   try {
     const movie = await Movie.create({ movieTitle });
-    res.status(200).json(movie);
+    res.status(200).json(movie._id);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

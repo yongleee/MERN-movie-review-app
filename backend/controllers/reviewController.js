@@ -46,13 +46,13 @@ const getReviewsByMovie = async (req, res) => {
 
 // create new review
 const createReview = async (req, res) => {
-  const { movie, content, rating } = req.body;
+  const { movieId, content, rating } = req.body;
 
   // check if the fields are empty and return the error to front end
   let emptyFields = [];
 
-  if (!movie) {
-    emptyFields.push("movie");
+  if (!movieId) {
+    emptyFields.push("movieId");
   }
   if (!content) {
     emptyFields.push("content");
@@ -71,7 +71,7 @@ const createReview = async (req, res) => {
     const review = await Review.create({
       content,
       rating,
-      movie,
+      movieId,
     });
     res.status(200).json(review);
   } catch (error) {

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useMoviesContext } from "../hooks/useMoviesContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import ReviewForm from "../components/ReviewForm";
 
-// TODO: Learn about axios .then promises
 // TODO: Set up a movie page with movieid as params with form for inputing reviews
-// TODO: Enable mongodb
 // TODO: post movie review
 // TODO: get movie review
+// TODO: Check ninja video whether context is required to save the review data for showing the data after it is posted
 // TODO: review list component
 export default function MoviePage() {
   const [movieCredits, setMovieCredits] = useState({});
@@ -27,7 +27,7 @@ export default function MoviePage() {
         },
       });
       setMovieCredits((prevMovieCredits) => {
-        return { ...prevMovieCredits, ...data };
+        return { ...data };
       });
     };
 
@@ -39,7 +39,12 @@ export default function MoviePage() {
       const { crew } = movieCredits;
       if (crew) {
         const directorObj = crew.filter((c) => c.job === "Director");
-        setDirector(directorObj[0].name);
+        const directorNames = directorObj.map((director) => director.name);
+        if (Array.isArray(directorNames)) {
+          setDirector(directorNames.join(", "));
+          return;
+        }
+        setDirector(directorNames);
       }
     };
 
@@ -56,6 +61,7 @@ export default function MoviePage() {
         <h1>{movie.title}</h1>
         <p>{director}</p>
       </div>
+      <ReviewForm movieTitle={movie.title} />
     </>
   );
 }

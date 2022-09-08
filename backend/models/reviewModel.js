@@ -12,7 +12,7 @@ const reviewSchema = new Schema(
       type: Number,
       required: true,
     },
-    movie: {
+    movieId: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "Movie",
       required: true,
