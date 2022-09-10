@@ -3,16 +3,21 @@ import { useMoviesContext } from "../hooks/useMoviesContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
+import ReviewList from "../components/ReviewList";
 
-// TODO: Set up a movie page with movieid as params with form for inputing reviews
-// TODO: post movie review
+// TODO: Set up a movie page with movieid as params with form for inputing reviews (done)
+// TODO: post movie review (done)
+// TODO: Check ninja video whether context is required to save the review data for showing the data after it was posted
 // TODO: get movie review
-// TODO: Check ninja video whether context is required to save the review data for showing the data after it is posted
 // TODO: review list component
+// TODO: Learn authentication
 export default function MoviePage() {
   const [movieCredits, setMovieCredits] = useState({});
   const [director, setDirector] = useState("");
+  const [movieIdForDB, setMovieIdForDB] = useState("");
+
   const { API_URL } = useMoviesContext();
+
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
   const {
     state: { movie },
@@ -51,6 +56,24 @@ export default function MoviePage() {
     getDirector();
   }, [movieCredits]);
 
+  useEffect(() => {
+    const fetchMovieIdFromDB = async () => {
+      const movieTitle = movie.title;
+      const existedMovieId = await axios.get(`/api/movies/title/${movieTitle}`);
+      if (existedMovieId.data) {
+        setMovieIdForDB(existedMovieId.data);
+      } else {
+        const newMovieId = await axios.post("/api/movies", {
+          movieTitle,
+        });
+        setMovieIdForDB(newMovieId.data);
+      }
+    };
+
+    fetchMovieIdFromDB();
+  }, [movie.title]);
+  // console.log(movieIdForDB);
+
   return (
     <>
       <div>
@@ -61,7 +84,12 @@ export default function MoviePage() {
         <h1>{movie.title}</h1>
         <p>{director}</p>
       </div>
-      <ReviewForm movieTitle={movie.title} />
+      <div>
+        <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />
+      </div>
+      <div>
+        <ReviewList movieIdForDB={movieIdForDB} />
+      </div>
     </>
   );
 }

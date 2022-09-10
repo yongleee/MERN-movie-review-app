@@ -1,38 +1,21 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function ReviewForm({ movieTitle }) {
+export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
-  const [movieId, setMovieId] = useState("");
   // const [error, setError] = useState(null);
   // const [emptyFields, setEmptyFields] = useState([]);
-
-  useEffect(() => {
-    const fetchMovieId = async () => {
-      const existedMovieId = await axios.get(`/api/movies/title/${movieTitle}`);
-      if (existedMovieId.data) {
-        setMovieId(existedMovieId.data);
-        // console.log(existedMovieId.data);
-      } else {
-        const newMovieId = await axios.post("/api/movies", {
-          movieTitle,
-        });
-        setMovieId(newMovieId.data);
-        // console.log(newMovieId.data);
-      }
-    };
-
-    fetchMovieId();
-  }, [movieTitle]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const review = { movieId, content, rating };
+    if (movieIdForDB) {
+      const review = { movieId: movieIdForDB, content, rating };
 
-    const response = await axios.post("/api/reviews", review);
-    console.log(response);
+      const response = await axios.post("/api/reviews", review);
+      console.log(response);
+    }
   };
 
   // TODO: Add modal when working on design (check chrome bookmark for reference)
