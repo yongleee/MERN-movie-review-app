@@ -10,16 +10,26 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (movieIdForDB) {
-      const review = { movieId: movieIdForDB, content, rating };
+    let movieId = "";
+    if (!movieIdForDB) {
+      const newMovieId = await axios.post("/api/movies", {
+        movieTitle,
+      });
+      movieId = newMovieId.data;
+    } else {
+      movieId = movieIdForDB;
+    }
+
+    if (movieId) {
+      const review = { movieId, content, rating };
 
       const response = await axios.post("/api/reviews", review);
       console.log(response);
     }
   };
 
-  // TODO: Add modal when working on design (check chrome bookmark for reference)
-  // TODO: Work on: "if empty fields when submit show error messages with tailwind" when working on styling
+  // TODO: Stying: Add modal when working on design (check chrome bookmark for reference)
+  // TODO: Stying: Work on: "if empty fields when submit show error messages with tailwind" when working on styling
   return (
     <form onSubmit={handleSubmit}>
       <h1>I watched {movieTitle}</h1>

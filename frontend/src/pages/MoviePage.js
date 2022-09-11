@@ -7,9 +7,9 @@ import ReviewList from "../components/ReviewList";
 
 // TODO: Set up a movie page with movieid as params with form for inputing reviews (done)
 // TODO: post movie review (done)
-// TODO: Check ninja video whether context is required to save the review data for showing the data after it was posted
-// TODO: get movie review
-// TODO: review list component
+// TODO: get movie review (done)
+// TODO: review list component (done)
+// TODO: add a review context to update the review immediately after posting
 // TODO: Learn authentication
 export default function MoviePage() {
   const [movieCredits, setMovieCredits] = useState({});
@@ -56,17 +56,14 @@ export default function MoviePage() {
     getDirector();
   }, [movieCredits]);
 
+  // TODO: solve the posting movie twice to db bug (done)
   useEffect(() => {
     const fetchMovieIdFromDB = async () => {
       const movieTitle = movie.title;
       const existedMovieId = await axios.get(`/api/movies/title/${movieTitle}`);
+
       if (existedMovieId.data) {
         setMovieIdForDB(existedMovieId.data);
-      } else {
-        const newMovieId = await axios.post("/api/movies", {
-          movieTitle,
-        });
-        setMovieIdForDB(newMovieId.data);
       }
     };
 
