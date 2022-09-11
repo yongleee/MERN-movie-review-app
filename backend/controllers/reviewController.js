@@ -32,16 +32,18 @@ const getReviewsByMovie = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "No such review" });
+    return res.status(404).json({ error: "No such movie id" });
   }
 
-  const review = await Review.find({ movieId: id }).populate("movieId");
+  const reviews = await Review.find({ movieId: id })
+    .sort({ createdAt: -1 })
+    .populate("movieId");
 
-  if (!review) {
-    return res.status(404).json({ error: "No such review" });
+  if (!reviews) {
+    return res.status(404).json({ error: "Movie not registered in database" });
   }
 
-  res.status(200).json(review);
+  res.status(200).json(reviews);
 };
 
 // create new review

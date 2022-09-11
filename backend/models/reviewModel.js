@@ -11,6 +11,12 @@ const reviewSchema = new Schema(
     rating: {
       type: Number,
       required: true,
+      min: 1,
+      max: 5,
+      validate: {
+        validator: (v) => v % 0.5 === 0,
+        message: (props) => `${props.value} should be a multiple of 0.5`,
+      },
     },
     movieId: {
       type: mongoose.SchemaTypes.ObjectId,

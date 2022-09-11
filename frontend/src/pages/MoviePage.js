@@ -5,10 +5,6 @@ import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 
-// TODO: Set up a movie page with movieid as params with form for inputing reviews (done)
-// TODO: post movie review (done)
-// TODO: get movie review (done)
-// TODO: review list component (done)
 // TODO: add a review context to update the review immediately after posting
 // TODO: Learn authentication
 export default function MoviePage() {
@@ -56,7 +52,6 @@ export default function MoviePage() {
     getDirector();
   }, [movieCredits]);
 
-  // TODO: solve the posting movie twice to db bug (done)
   useEffect(() => {
     const fetchMovieIdFromDB = async () => {
       const movieTitle = movie.title;
@@ -69,7 +64,6 @@ export default function MoviePage() {
 
     fetchMovieIdFromDB();
   }, [movie.title]);
-  // console.log(movieIdForDB);
 
   return (
     <>

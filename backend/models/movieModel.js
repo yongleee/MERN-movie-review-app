@@ -7,6 +7,7 @@ const movieSchema = new Schema(
     movieTitle: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   { timestamps: true }
