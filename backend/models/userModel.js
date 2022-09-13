@@ -8,6 +8,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    watchlist: {},
   },
   { timestamps: true }
 );

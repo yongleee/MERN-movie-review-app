@@ -5,6 +5,8 @@ import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 
+// TODO: work on word limit on review
+// TODO: show average star
 // TODO: add a review context to update the review immediately after posting
 // TODO: Learn authentication
 export default function MoviePage() {

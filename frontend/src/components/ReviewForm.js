@@ -38,6 +38,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
         type="text"
         onChange={(e) => setContent(e.target.value)}
         value={content}
+        maxLength={1000}
       />
       <label>Add Your Rating: </label>
       <input
