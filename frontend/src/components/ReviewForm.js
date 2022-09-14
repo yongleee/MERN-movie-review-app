@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { useReviewsContext } from "../hooks/useReviewsContext";
 
 export default function ReviewForm({ movieTitle, movieIdForDB }) {
+  const { dispatch } = useReviewsContext();
+
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
-  // const [error, setError] = useState(null);
-  // const [emptyFields, setEmptyFields] = useState([]);
+  const [errorReview, setErrorReview] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +26,17 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
     if (movieId) {
       const review = { movieId, content, rating };
 
-      const response = await axios.post("/api/reviews", review);
-      console.log(response);
+      try {
+        const response = await axios.post("/api/reviews", review);
+        console.log(response.data);
+        // dispatch({type: "CREATE_REVIEW", payload: response.data,});
+      } catch (err) {
+        const {
+          response: { data },
+        } = err;
+        setErrorReview(data.error);
+        setEmptyFields(data.emptyFields);
+      }
     }
   };
 
@@ -47,6 +59,11 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
         value={rating}
       />
       <button>post</button>
+      {errorReview && (
+        <p>
+          {errorReview}: {emptyFields.join(", ")}
+        </p>
+      )}
     </form>
   );
 }
