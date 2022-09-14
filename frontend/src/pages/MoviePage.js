@@ -6,10 +6,10 @@ import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 
 // TODO: work on word limit on review (done)
-// TODO: error catching
-// TODO: show average star
+// TODO: error catching (done)
+// TODO: delete review
 // TODO: add a review context to update the review immediately after posting
-// TODO: delete and update review
+// TODO: show average star
 // TODO: Learn authentication
 export default function MoviePage() {
   const [movieCredits, setMovieCredits] = useState({});

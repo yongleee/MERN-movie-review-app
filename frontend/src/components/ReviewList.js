@@ -20,12 +20,15 @@ export default function ReviewList({ movieIdForDB }) {
     fetchReviewsByMovieId();
   }, [movieIdForDB]);
 
+  useEffect(() => {});
+
   return (
     <>
       {reviews &&
         reviews.map((review) => (
           <ReviewCards
             key={review._id}
+            id={review._id}
             content={review.content}
             rating={review.rating}
           />
