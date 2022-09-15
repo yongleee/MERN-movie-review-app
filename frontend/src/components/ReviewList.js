@@ -1,29 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { useReviewsContext } from "../hooks/useReviewsContext";
 import ReviewCards from "./ReviewCards";
 
 export default function ReviewList({ movieIdForDB }) {
-  const [reviews, setReviews] = useState([]);
+  const { reviews, dispatch } = useReviewsContext();
 
-  // console.log(movieIdForDB);
+  // TODO: update to context after getting data from database (done)
   useEffect(() => {
     const fetchReviewsByMovieId = async () => {
       if (movieIdForDB) {
-        const { data } = await axios.get(
+        const response = await axios.get(
           `/api/reviews/by-movie/${movieIdForDB}`
         );
-        console.log(data);
-        setReviews(data);
+        console.log(response.statusText);
+        if (response.statusText === "OK") {
+          dispatch({ type: "SET_REVIEWS", payload: response.data });
+        }
+      } else {
+        dispatch({ type: "SET_REVIEWS", payload: null });
       }
     };
 
     fetchReviewsByMovieId();
-  }, [movieIdForDB]);
-
-  useEffect(() => {});
+  }, [movieIdForDB, dispatch]);
 
   return (
-    <>
+    <ul>
       {reviews &&
         reviews.map((review) => (
           <ReviewCards
@@ -33,6 +36,6 @@ export default function ReviewList({ movieIdForDB }) {
             rating={review.rating}
           />
         ))}
-    </>
+    </ul>
   );
 }
