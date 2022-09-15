@@ -28,8 +28,10 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
 
       try {
         const response = await axios.post("/api/reviews", review);
-        console.log(response.data);
-        // dispatch({type: "CREATE_REVIEW", payload: response.data,});
+        setErrorReview(null);
+        if (response.statusText === "OK") {
+          dispatch({ type: "CREATE_REVIEW", payload: response.data });
+        }
       } catch (err) {
         const {
           response: { data },
