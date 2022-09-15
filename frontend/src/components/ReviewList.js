@@ -13,12 +13,11 @@ export default function ReviewList({ movieIdForDB }) {
         const response = await axios.get(
           `/api/reviews/by-movie/${movieIdForDB}`
         );
-        console.log(response.statusText);
         if (response.statusText === "OK") {
           dispatch({ type: "SET_REVIEWS", payload: response.data });
         }
       } else {
-        dispatch({ type: "SET_REVIEWS", payload: null });
+        dispatch({ type: "SET_REVIEWS", payload: [] });
       }
     };
 

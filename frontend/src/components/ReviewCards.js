@@ -14,7 +14,8 @@ export default function ReviewCards({ id, content, rating }) {
     }
   };
 
-  // TODO: styling: work on update review after learning modal
+  // TODO: styling: work on edit review after learning modal
+  // TODO: styling: work on double confirm delete for user using modal
   return (
     <li className="border-2 border-black">
       <p>{content}</p>

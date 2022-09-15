@@ -4,11 +4,12 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
+import { useReviewsContext } from "../hooks/useReviewsContext";
 
 // TODO: work on word limit on review (done)
 // TODO: error catching (done)
 // TODO: delete review (done)
-// TODO: add a review context to update the review immediately after posting
+// TODO: add a review context to update the review immediately after posting (done)
 // TODO: show average star
 // TODO: Learn authentication
 // TODO: edit review
@@ -18,6 +19,8 @@ export default function MoviePage() {
   const [movieIdForDB, setMovieIdForDB] = useState("");
 
   const { API_URL } = useMoviesContext();
+  const { reviews } = useReviewsContext();
+  console.log(reviews);
 
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
   const {
@@ -78,7 +81,8 @@ export default function MoviePage() {
           alt={`Poster of ${movie.title}`}
         />
         <h1>{movie.title}</h1>
-        <p>{director}</p>
+        <p>Directed by: {director}</p>
+        <p>Average </p>
       </div>
       <div>
         <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />

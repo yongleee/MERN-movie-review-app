@@ -6,7 +6,7 @@ export const reviewsReducer = (state, action) => {
   switch (action.type) {
     case "SET_REVIEWS":
       return {
-        reviews: action.payload,
+        reviews: [...action.payload],
       };
     case "CREATE_REVIEW":
       return {
@@ -23,7 +23,7 @@ export const reviewsReducer = (state, action) => {
 
 export const ReviewsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reviewsReducer, {
-    reviews: null,
+    reviews: [],
   });
 
   return (
