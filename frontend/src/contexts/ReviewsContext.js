@@ -16,6 +16,10 @@ export const reviewsReducer = (state, action) => {
       return {
         reviews: state.reviews.filter((r) => r._id !== action.payload._id),
       };
+    case "RESET_REVIEWS":
+      return {
+        reviews: null,
+      };
     default:
       return state;
   }
@@ -23,7 +27,7 @@ export const reviewsReducer = (state, action) => {
 
 export const ReviewsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reviewsReducer, {
-    reviews: [],
+    reviews: null,
   });
 
   return (

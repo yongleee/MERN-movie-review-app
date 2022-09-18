@@ -5,8 +5,6 @@ const TheNavbar = () => {
   const [searchField, setSearchField] = useState("");
   const navigate = useNavigate();
 
-  console.log("navbar render");
-
   const handleChange = (e) => {
     setSearchField(e.target.value);
   };

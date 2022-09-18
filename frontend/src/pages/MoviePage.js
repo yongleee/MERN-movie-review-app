@@ -1,94 +1,59 @@
 import { useEffect, useState } from "react";
-import { useMoviesContext } from "../hooks/useMoviesContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
+import MovieInfo from "../components/MovieInfo";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 
-// TODO: work on word limit on review (done)
-// TODO: error catching (done)
-// TODO: delete review (done)
-// TODO: add a review context to update the review immediately after posting (done)
 // TODO: show average star
 // TODO: Learn authentication
 // TODO: edit review
 export default function MoviePage() {
-  const [movieCredits, setMovieCredits] = useState({});
-  const [director, setDirector] = useState("");
   const [movieIdForDB, setMovieIdForDB] = useState("");
+  const [hasCheckedMovieId, setHasCheckedMovieId] = useState(false);
 
-  const { API_URL } = useMoviesContext();
-  const { reviews } = useReviewsContext();
-  console.log(reviews);
+  const { dispatch } = useReviewsContext();
 
-  const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
   const {
     state: { movie },
   } = useLocation();
 
   useEffect(() => {
-    const fetchMovieCredits = async () => {
-      const movie_id = movie.id;
-      const { data } = await axios.get(`${API_URL}/movie/${movie_id}/credits`, {
-        params: {
-          api_key: process.env.REACT_APP_MOVIE_API_KEY,
-        },
-      });
-      setMovieCredits((prevMovieCredits) => {
-        return { ...data };
-      });
-    };
-
-    fetchMovieCredits();
-  }, [API_URL, movie.id]);
-
-  useEffect(() => {
-    const getDirector = () => {
-      const { crew } = movieCredits;
-      if (crew) {
-        const directorObj = crew.filter((c) => c.job === "Director");
-        const directorNames = directorObj.map((director) => director.name);
-        if (Array.isArray(directorNames)) {
-          setDirector(directorNames.join(", "));
-          return;
-        }
-        setDirector(directorNames);
-      }
-    };
-
-    getDirector();
-  }, [movieCredits]);
-
-  useEffect(() => {
+    dispatch({ type: "RESET_REVIEWS" });
     const fetchMovieIdFromDB = async () => {
       const movieTitle = movie.title;
       const existedMovieId = await axios.get(`/api/movies/title/${movieTitle}`);
 
       if (existedMovieId.data) {
         setMovieIdForDB(existedMovieId.data);
+      } else {
+        setHasCheckedMovieId(true);
       }
     };
 
     fetchMovieIdFromDB();
-  }, [movie.title]);
+  }, [movie.title, dispatch]);
+
+  useEffect(() => {
+    if (movieIdForDB) {
+      setHasCheckedMovieId(true);
+    }
+  }, [movieIdForDB]);
 
   return (
     <>
       <div>
-        <img
-          src={`${IMAGE_PATH}${movie.poster_path}`}
-          alt={`Poster of ${movie.title}`}
-        />
-        <h1>{movie.title}</h1>
-        <p>Directed by: {director}</p>
-        <p>Average </p>
+        <MovieInfo movie={movie} />
       </div>
       <div>
         <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />
       </div>
       <div>
-        <ReviewList movieIdForDB={movieIdForDB} />
+        <ReviewList
+          movieIdForDB={movieIdForDB}
+          hasCheckedMovieId={hasCheckedMovieId}
+        />
       </div>
     </>
   );

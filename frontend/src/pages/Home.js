@@ -6,7 +6,6 @@ import axios from "axios";
 export default function Home() {
   const [discoverMovies, setDiscoverMovies] = useState([]);
   const { API_URL } = useMoviesContext();
-  console.log("home render");
 
   useEffect(() => {
     const fetchDiscoverMovies = async () => {

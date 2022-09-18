@@ -3,26 +3,25 @@ import axios from "axios";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 import ReviewCards from "./ReviewCards";
 
-export default function ReviewList({ movieIdForDB }) {
+export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
   const { reviews, dispatch } = useReviewsContext();
 
-  // TODO: update to context after getting data from database (done)
   useEffect(() => {
     const fetchReviewsByMovieId = async () => {
-      if (movieIdForDB) {
+      if (hasCheckedMovieId && movieIdForDB) {
         const response = await axios.get(
           `/api/reviews/by-movie/${movieIdForDB}`
         );
         if (response.statusText === "OK") {
           dispatch({ type: "SET_REVIEWS", payload: response.data });
         }
-      } else {
+      } else if (hasCheckedMovieId) {
         dispatch({ type: "SET_REVIEWS", payload: [] });
       }
     };
 
     fetchReviewsByMovieId();
-  }, [movieIdForDB, dispatch]);
+  }, [hasCheckedMovieId, movieIdForDB, dispatch]);
 
   return (
     <ul>
