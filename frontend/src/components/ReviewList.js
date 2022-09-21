@@ -32,6 +32,7 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
             id={review._id}
             content={review.content}
             rating={review.rating}
+            timeAdded={review.createdAt}
           />
         ))}
     </ul>

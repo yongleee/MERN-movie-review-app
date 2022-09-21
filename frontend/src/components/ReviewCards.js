@@ -1,9 +1,8 @@
 import axios from "axios";
-import React from "react";
 import { useReviewsContext } from "../hooks/useReviewsContext";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-export default function ReviewCards({ id, content, rating }) {
-  // TODO: delete todo from context (done)
+export default function ReviewCards({ id, content, rating, timeAdded }) {
   const { dispatch } = useReviewsContext();
 
   const handleClick = async () => {
@@ -20,6 +19,7 @@ export default function ReviewCards({ id, content, rating }) {
     <li className="border-2 border-black">
       <p>{content}</p>
       <p>{rating}</p>
+      <p>{formatDistanceToNow(new Date(timeAdded), { addSuffix: true })}</p>
       <button onClick={handleClick}>delete</button>
     </li>
   );
