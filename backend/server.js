@@ -4,6 +4,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const reviewRoutes = require("./routes/reviews");
 const movieRoutes = require("./routes/movies");
+const authRoutes = require("./routes/auths");
+const userRoutes = require("./routes/users");
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use((req, res, next) => {
 
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/auths", authRoutes);
+app.use("/api/users", userRoutes);
 
 // Connects to the database, async function
 // Only listens to the request once it is connected to the database

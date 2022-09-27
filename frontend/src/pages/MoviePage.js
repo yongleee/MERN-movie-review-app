@@ -6,7 +6,7 @@ import ReviewList from "../components/ReviewList";
 import MovieInfo from "../components/MovieInfo";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 
-// TODO: add date for review added
+// TODO: add date for review added (done)
 // TODO: Learn authentication
 // TODO: edit review
 export default function MoviePage() {

@@ -23,7 +23,13 @@ const TheNavbar = () => {
         <p>User</p>
       </Link>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={searchField} onChange={handleChange} />
+        <label htmlFor="search">Search: </label>
+        <input
+          type="text"
+          id="search"
+          value={searchField}
+          onChange={handleChange}
+        />
         <button type="submit">Search</button>
       </form>
     </nav>

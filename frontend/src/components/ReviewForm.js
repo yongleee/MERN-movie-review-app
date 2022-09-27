@@ -47,16 +47,18 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   return (
     <form onSubmit={handleSubmit}>
       <h1>I watched {movieTitle}</h1>
-      <label>Add Your Review: </label>
+      <label htmlFor="content">Add Your Review: </label>
       <input
         type="text"
+        id="content"
         onChange={(e) => setContent(e.target.value)}
         value={content}
         maxLength={1000}
       />
-      <label>Add Your Rating: </label>
+      <label htmlFor="rating">Add Your Rating: </label>
       <input
         type="number"
+        id="rating"
         onChange={(e) => setRating(e.target.value)}
         value={rating}
       />
