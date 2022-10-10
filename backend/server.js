@@ -1,7 +1,7 @@
 require("dotenv").config();
-
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const reviewRoutes = require("./routes/reviews");
 const movieRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auths");
@@ -11,6 +11,8 @@ const app = express();
 
 // A middleware that looks for data passing through request to the server and attaches it to the request object (req.body)
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
