@@ -46,11 +46,28 @@ const getReviewsByMovie = async (req, res) => {
   res.status(200).json(reviews);
 };
 
+const getReviewsByUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such user id" });
+  }
+
+  const reviews = await Review.find({ userId: id })
+    .sort({ createdAt: -1 })
+    .populate("userId");
+
+  if (!reviews) {
+    return res.status(404).json({ error: "User not registered in database" });
+  }
+
+  res.status(200).json(reviews);
+};
+
 // create new review
 const createReview = async (req, res) => {
-  const { movieId, content, rating } = req.body;
+  const { movieId, content, rating, userId } = req.body;
 
-  // check if the fields are empty and return the error to front end
   let emptyFields = [];
 
   if (!movieId) {
@@ -68,12 +85,12 @@ const createReview = async (req, res) => {
       .json({ error: "Please fill in all the fields", emptyFields });
   }
 
-  // add doc to db
   try {
     const review = await Review.create({
       content,
       rating,
       movieId,
+      userId,
     });
     res.status(200).json(review);
   } catch (error) {
@@ -127,4 +144,5 @@ module.exports = {
   deleteReview,
   updateReview,
   getReviewsByMovie,
+  getReviewsByUser,
 };

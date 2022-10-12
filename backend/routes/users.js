@@ -8,12 +8,10 @@ const {
 
 const router = express.Router();
 
-router.use(verifyJWT);
-
 router.route("/").get(getAllUsers);
 
 router.route("/signup").post(createNewUser);
 
-router.route("/id/:id").delete(deleteUser);
+router.route("/id/:id").delete(verifyJWT, deleteUser);
 
 module.exports = router;

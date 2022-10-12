@@ -24,6 +24,10 @@ const reviewSchema = new Schema(
       ref: "Movie",
       required: true,
     },
+    userId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );

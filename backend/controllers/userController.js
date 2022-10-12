@@ -1,46 +1,21 @@
 const User = require("../models/userModel");
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 const createNewUser = async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    const user = await User.signup(email, password, username);
+    await User.signup(email, password, username);
 
-    const accessToken = jwt.sign(
-      {
-        userInfo: {
-          username: user.username,
-          id: user._id,
-        },
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
-    );
-
-    const refreshToken = jwt.sign(
-      {
-        username: user.username,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    // Create secure cookie with refresh token
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true, //accessible only by web server
-      secure: true, //https
-      sameSite: "None", //cross-site cookie
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-    });
-
-    res.status(200).json({ email, accessToken });
+    res.status(200).json({ email });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+// for development only
 const getAllUsers = async (req, res) => {
   const users = await User.find({})
     .sort({ createdAt: -1 })
@@ -48,6 +23,50 @@ const getAllUsers = async (req, res) => {
     .lean();
 
   res.status(200).json(users);
+};
+
+const updatePassword = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such user" });
+  }
+
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const match = await bcrypt.compare(oldPassword, user.password);
+
+  if (!match) {
+    return res.status(401).json({ message: "Incorrect password" });
+  }
+
+  if (!validator.isStrongPassword(newPassword)) {
+    return res.status(400).json({
+      message:
+        "Passwords must contain at least 8 characters in upper and lowercase, with at least 1 number and 1 symbol.",
+    });
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(password, salt);
+
+  const updatedUser = await user.save();
+
+  res.status(200).json(`${updatedUser.username}'s password updated`);
+};
+
+const updateUsername = async (req, res) => {
+  const duplicate = await User.findOne({ username });
 };
 
 const deleteUser = async (req, res) => {
@@ -66,4 +85,4 @@ const deleteUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-module.exports = { createNewUser, deleteUser, getAllUsers };
+module.exports = { createNewUser, deleteUser, getAllUsers, updatePassword };

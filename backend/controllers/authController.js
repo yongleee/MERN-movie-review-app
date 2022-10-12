@@ -34,7 +34,7 @@ const logInUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
 
-    res.status(200).json({ emailOrUsername, accessToken });
+    res.status(200).json({ userId: user._id, emailOrUsername, accessToken });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -42,8 +42,6 @@ const logInUser = async (req, res) => {
 
 const refresh = (req, res) => {
   const cookies = req.cookies;
-
-  console.log(cookies);
 
   if (!cookies?.jwt)
     return res.status(401).json({ message: "No token, unauthorized" });
