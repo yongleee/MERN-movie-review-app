@@ -21,10 +21,14 @@ const userSchema = new Schema(
       unique: true,
       maxLength: 36,
     },
-    watchlist: {
-      type: [mongoose.SchemaTypes.ObjectId],
-      ref: "Movie",
-    },
+    watchlist: [
+      {
+        movieId: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: "Movie",
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

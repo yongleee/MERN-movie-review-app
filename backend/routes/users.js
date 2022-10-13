@@ -4,6 +4,9 @@ const {
   createNewUser,
   deleteUser,
   getAllUsers,
+  updatePassword,
+  updateUsername,
+  updateWatchlist,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -12,6 +15,12 @@ router.route("/").get(getAllUsers);
 
 router.route("/signup").post(createNewUser);
 
-router.route("/id/:id").delete(verifyJWT, deleteUser);
+router.use(verifyJWT);
+
+router.route("/user/:id").delete(deleteUser).patch(updateUsername);
+
+router.route("/update-password/:id").patch(updatePassword);
+
+router.route("/update-watchlist/:id").patch(updateWatchlist);
 
 module.exports = router;

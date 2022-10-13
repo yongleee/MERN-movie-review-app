@@ -52,7 +52,6 @@ const createMovie = async (req, res) => {
       .json({ error: "Please fill in all the fields", emptyFields });
   }
 
-  // add doc to db
   try {
     const movie = await Movie.create({ movieTitle });
     res.status(200).json(movie._id);

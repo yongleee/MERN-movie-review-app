@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+// sign up
 const createNewUser = async (req, res) => {
   const { email, password, username } = req.body;
 
@@ -15,6 +16,7 @@ const createNewUser = async (req, res) => {
   }
 };
 
+// get all users
 // for development only
 const getAllUsers = async (req, res) => {
   const users = await User.find({})
@@ -25,6 +27,7 @@ const getAllUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+// update password
 const updatePassword = async (req, res) => {
   const { id } = req.params;
 
@@ -65,10 +68,67 @@ const updatePassword = async (req, res) => {
   res.status(200).json(`${updatedUser.username}'s password updated`);
 };
 
+// update username
 const updateUsername = async (req, res) => {
-  const duplicate = await User.findOne({ username });
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such user" });
+  }
+
+  const { newUsername } = req.body;
+
+  if (!newUsername) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const duplicate = await User.findOne({ newUsername });
+
+  if (duplicate && duplicate?._id.toString() !== id) {
+    return res.status(409).json({ message: "Duplicate username" });
+  }
+
+  user.username = newUsername;
+
+  const updatedUser = await user.save();
+
+  res.status(200).json(`Username updated to ${updatedUser.username}`);
 };
 
+// update watchlist
+const updateWatchlist = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such user id" });
+  }
+
+  const user = await User.findOne({ _id: id });
+
+  if (!user) {
+    return res.status(404).json({ error: "No such user" });
+  }
+
+  const { newMovieId } = req.body;
+
+  if (user.watchlist.includes(newMovieId)) {
+    user.watchlist = user.watchlist.filter((m) => m.movieId !== newMovieId);
+  } else {
+    user.watchlist.push(newMovieId);
+  }
+
+  const updatedUser = await user.save();
+
+  res.status(200).json(`Watchlist of ${updatedUser.username} is updated`);
+};
+
+// delete user
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 
@@ -85,4 +145,11 @@ const deleteUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-module.exports = { createNewUser, deleteUser, getAllUsers, updatePassword };
+module.exports = {
+  createNewUser,
+  deleteUser,
+  getAllUsers,
+  updatePassword,
+  updateUsername,
+  updateWatchlist,
+};

@@ -37,7 +37,7 @@ const getReviewsByMovie = async (req, res) => {
 
   const reviews = await Review.find({ movieId: id })
     .sort({ createdAt: -1 })
-    .populate("movieId");
+    .populate({ path: "movieId", select: ["username", "watchlist"] });
 
   if (!reviews) {
     return res.status(404).json({ error: "Movie not registered in database" });
