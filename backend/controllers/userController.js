@@ -77,9 +77,13 @@ const updatePassword = async (req, res) => {
   }
 
   const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(newPassword, salt);
 
-  const updatedUser = await user.save();
+  const password = await bcrypt.hash(newPassword, salt);
+
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { password } }
+  );
 
   res.status(200).json(`${updatedUser.username}'s password updated`);
 };
@@ -109,9 +113,10 @@ const updateUsername = async (req, res) => {
     return res.status(409).json({ message: "Duplicate username" });
   }
 
-  user.username = newUsername;
-
-  const updatedUser = await user.save();
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { username: newUsername } }
+  );
 
   res.status(200).json(`Username updated to ${updatedUser.username}`);
 };
