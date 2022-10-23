@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-// sign up
 const createNewUser = async (req, res) => {
   const { email, password, username } = req.body;
 
@@ -16,18 +15,18 @@ const createNewUser = async (req, res) => {
   }
 };
 
-// get all users
-// for development only
 const getAllUsers = async (req, res) => {
   const users = await User.find({})
     .sort({ createdAt: -1 })
     .select("-password")
+    .populate({
+      path: "watchlist.movieId",
+    })
     .lean();
 
   res.status(200).json(users);
 };
 
-// update password
 const updatePassword = async (req, res) => {
   const { id } = req.params;
 
@@ -61,14 +60,13 @@ const updatePassword = async (req, res) => {
   }
 
   const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(password, salt);
+  user.password = await bcrypt.hash(newPassword, salt);
 
   const updatedUser = await user.save();
 
   res.status(200).json(`${updatedUser.username}'s password updated`);
 };
 
-// update username
 const updateUsername = async (req, res) => {
   const { id } = req.params;
 
@@ -101,7 +99,6 @@ const updateUsername = async (req, res) => {
   res.status(200).json(`Username updated to ${updatedUser.username}`);
 };
 
-// update watchlist
 const updateWatchlist = async (req, res) => {
   const { id } = req.params;
 
@@ -109,26 +106,34 @@ const updateWatchlist = async (req, res) => {
     return res.status(404).json({ error: "No such user id" });
   }
 
-  const user = await User.findOne({ _id: id });
+  const { movieId } = req.body;
+
+  const user = await User.findOneAndUpdate({ _id: id }, [
+    {
+      $set: {
+        watchlist: {
+          $cond: [
+            { $in: [{ movieId }, "$watchlist"] },
+            {
+              $filter: {
+                input: "$watchlist",
+                cond: { $ne: ["$$this.movieId", movieId] },
+              },
+            },
+            { $concatArrays: ["$watchlist", [{ movieId }]] },
+          ],
+        },
+      },
+    },
+  ]);
 
   if (!user) {
     return res.status(404).json({ error: "No such user" });
   }
 
-  const { newMovieId } = req.body;
-
-  if (user.watchlist.includes(newMovieId)) {
-    user.watchlist = user.watchlist.filter((m) => m.movieId !== newMovieId);
-  } else {
-    user.watchlist.push(newMovieId);
-  }
-
-  const updatedUser = await user.save();
-
-  res.status(200).json(`Watchlist of ${updatedUser.username} is updated`);
+  res.status(200).json(`${user.username}'s watchlist has updated`);
 };
 
-// delete user
 const deleteUser = async (req, res) => {
   const { id } = req.params;
 

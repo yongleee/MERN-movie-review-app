@@ -17,7 +17,7 @@ router.route("/signup").post(createNewUser);
 
 router.use(verifyJWT);
 
-router.route("/user/:id").delete(deleteUser).patch(updateUsername);
+router.route("/:id").delete(deleteUser).patch(updateUsername);
 
 router.route("/update-password/:id").patch(updatePassword);
 

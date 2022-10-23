@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const getReviews = async (req, res) => {
   const reviews = await Review.find({})
     .sort({ createdAt: -1 })
-    .populate("movieId");
+    .populate("movieId")
+    .populate({ path: "userId", select: "username" });
 
   res.status(200).json(reviews);
 };
@@ -18,8 +19,9 @@ const getReview = async (req, res) => {
     return res.status(404).json({ error: "No such review" });
   }
 
-  const review = await Review.findById(id).populate("movieId");
-
+  const review = await Review.findById(id)
+    .populate("movieId")
+    .populate({ path: "userId", select: "username" });
   if (!review) {
     return res.status(404).json({ error: "No such review" });
   }
@@ -37,7 +39,8 @@ const getReviewsByMovie = async (req, res) => {
 
   const reviews = await Review.find({ movieId: id })
     .sort({ createdAt: -1 })
-    .populate({ path: "movieId", select: ["username", "watchlist"] });
+    .populate("movieId")
+    .populate({ path: "userId", select: "username" });
 
   if (!reviews) {
     return res.status(404).json({ error: "Movie not registered in database" });
@@ -55,7 +58,8 @@ const getReviewsByUser = async (req, res) => {
 
   const reviews = await Review.find({ userId: id })
     .sort({ createdAt: -1 })
-    .populate("userId");
+    .populate("movieId")
+    .populate({ path: "userId", select: "username" });
 
   if (!reviews) {
     return res.status(404).json({ error: "User not registered in database" });
@@ -141,8 +145,8 @@ module.exports = {
   createReview,
   getReviews,
   getReview,
-  deleteReview,
-  updateReview,
   getReviewsByMovie,
   getReviewsByUser,
+  deleteReview,
+  updateReview,
 };
