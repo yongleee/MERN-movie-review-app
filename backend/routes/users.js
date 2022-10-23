@@ -2,22 +2,25 @@ const express = require("express");
 const verifyJWT = require("../middleware/verifyJWT");
 const {
   createNewUser,
-  deleteUser,
   getAllUsers,
+  getUserByUsername,
   updatePassword,
   updateUsername,
   updateWatchlist,
+  deleteUser,
 } = require("../controllers/userController");
 
 const router = express.Router();
 
 router.route("/").get(getAllUsers);
 
+router.route("/username/:username").get(getUserByUsername);
+
 router.route("/signup").post(createNewUser);
 
 router.use(verifyJWT);
 
-router.route("/:id").delete(deleteUser).patch(updateUsername);
+router.route("/edit-user-info/:id").delete(deleteUser).patch(updateUsername);
 
 router.route("/update-password/:id").patch(updatePassword);
 

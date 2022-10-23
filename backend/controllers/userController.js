@@ -27,6 +27,23 @@ const getAllUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+const getUserByUsername = async (req, res) => {
+  const { username } = req.params;
+  const user = await User.findOne({ username })
+    .sort({ createdAt: -1 })
+    .select("-password")
+    .populate({
+      path: "watchlist.movieId",
+    })
+    .lean();
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json(user);
+};
+
 const updatePassword = async (req, res) => {
   const { id } = req.params;
 
@@ -152,9 +169,10 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   createNewUser,
-  deleteUser,
   getAllUsers,
+  getUserByUsername,
   updatePassword,
   updateUsername,
   updateWatchlist,
+  deleteUser,
 };
