@@ -19,6 +19,12 @@ const TheNavbar = () => {
       <Link to="/">
         <h1>KINOPICKS</h1>
       </Link>
+      <Link to="/log-in">
+        <p>Log In</p>
+      </Link>
+      <Link to="/sign-up">
+        <p>Sign Up</p>
+      </Link>
       <Link to="/user">
         <p>User</p>
       </Link>

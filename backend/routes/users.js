@@ -16,7 +16,7 @@ router.route("/").get(getAllUsers);
 
 router.route("/username/:username").get(getUserByUsername);
 
-router.route("/signup").post(createNewUser);
+router.route("/sign-up").post(createNewUser);
 
 router.use(verifyJWT);
 
