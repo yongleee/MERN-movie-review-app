@@ -1,4 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -7,18 +10,42 @@ export default function SignUp() {
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(true);
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  const { dispatch } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const match = password === matchPwd;
     setValidMatch(match);
-    console.log(email, password);
+    if (match) {
+      const newUser = { email, password, username };
+
+      try {
+        const response = await axios.post("/api/users/sign-up", newUser, {
+          withCredentials: true,
+        });
+        setErrorMsg(null);
+        console.log(response);
+        if (response.statusText === "OK") {
+          // TODO: dispatch to context
+          // dispatch({ type: "LOGIN", payload: response.data });
+        }
+      } catch (err) {
+        const {
+          response: { data },
+        } = err;
+        setErrorMsg(data.error);
+      }
+      navigate("/");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* TODO: error message */}
+      {/* TODO: display error message here */}
       <h1>Sign Up</h1>
       <label htmlFor="email">Email: </label>
       <input
@@ -50,6 +77,9 @@ export default function SignUp() {
       />
       {!validMatch && <p>Password doesn't match.</p>}
       <button>Sign Up</button>
+      {errorMsg && <p>{errorMsg}</p>}
+      <p>Already registered?</p>
+      <Link to={"/log-in"}>Log In</Link>
     </form>
   );
 }
