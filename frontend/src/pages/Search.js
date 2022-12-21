@@ -28,10 +28,17 @@ export default function Search() {
   }, [API_URL, searchId]);
 
   return (
-    <div>
-      {searchMovies.map((movie) => (
-        <MovieCards key={movie.id} movie={movie} />
-      ))}
-    </div>
+    <>
+      <p className="font-OpenSans text-sm text-neutral-300 mb-0.5">
+        SEARCH RESULTS:
+      </p>
+      <hr className="border-t-neutral-300" />
+      <ul className="flex flex-wrap mt-5">
+        {searchMovies.map((movie) => (
+          <MovieCards key={movie.id} movie={movie} />
+        ))}
+      </ul>
+      <hr className="border-t-neutral-300 mt-1 pb-4" />
+    </>
   );
 }

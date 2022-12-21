@@ -31,7 +31,7 @@ export default function SignUp() {
         console.log(response);
         if (response.statusText === "OK") {
           // TODO: dispatch to context
-          // dispatch({ type: "LOGIN", payload: response.data });
+          dispatch({ type: "LOGIN", payload: response.data });
         }
       } catch (err) {
         const {

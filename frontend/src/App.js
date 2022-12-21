@@ -12,16 +12,18 @@ function App() {
   return (
     <>
       <TheNavbar />
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/user" element={<UserProfile />} />
-          <Route path="/search/:searchId" element={<Search />} />
-          <Route path="/movie/:movieId" element={<MoviePage />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/log-in" element={<LogIn />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <div className="bg-neutral-700">
+        <div className="mx-auto max-w-5xl px-4 pt-2 h-full">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/user" element={<UserProfile />} />
+            <Route path="/search/:searchId" element={<Search />} />
+            <Route path="/movie/:movieId" element={<MoviePage />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/log-in" element={<LogIn />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </>
   );

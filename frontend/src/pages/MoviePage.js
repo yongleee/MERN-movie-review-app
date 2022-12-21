@@ -19,6 +19,8 @@ export default function MoviePage() {
     state: { movie },
   } = useLocation();
 
+  const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
+
   useEffect(() => {
     dispatch({ type: "RESET_REVIEWS" });
     const fetchMovieIdFromDB = async () => {
@@ -43,17 +45,20 @@ export default function MoviePage() {
 
   return (
     <>
-      <div>
-        <MovieInfo movie={movie} />
-      </div>
-      <div>
-        <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />
-      </div>
-      <div>
-        <ReviewList
-          movieIdForDB={movieIdForDB}
-          hasCheckedMovieId={hasCheckedMovieId}
+      <div className="flex">
+        <img
+          src={`${IMAGE_PATH}${movie.poster_path}`}
+          alt={`Poster of ${movie.title}`}
+          className="h-[360px] w-[240px]"
         />
+        <div className="">
+          <MovieInfo movie={movie} />
+          <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />
+          <ReviewList
+            movieIdForDB={movieIdForDB}
+            hasCheckedMovieId={hasCheckedMovieId}
+          />
+        </div>
       </div>
     </>
   );

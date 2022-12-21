@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useReviewsContext } from "../hooks/useReviewsContext";
+import { Link } from "react-router-dom";
 
 export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const { dispatch } = useReviewsContext();
@@ -45,29 +46,116 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   // TODO: Stying: Add modal when working on design (check chrome bookmark for reference)
   // TODO: Stying: Work on: "if empty fields when submit show error messages with tailwind" when working on styling
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>I watched {movieTitle}</h1>
-      <label htmlFor="content">Add Your Review: </label>
-      <input
-        type="text"
-        id="content"
-        onChange={(e) => setContent(e.target.value)}
-        value={content}
-        maxLength={1000}
-      />
-      <label htmlFor="rating">Add Your Rating: </label>
-      <input
-        type="number"
-        id="rating"
-        onChange={(e) => setRating(e.target.value)}
-        value={rating}
-      />
-      <button>post</button>
-      {errorReview && (
+    <>
+      <p>
+        Continue leaving a review anonymously or
+        <Link to={"/sign-up"}> Sign Up.</Link>
+      </p>
+      <p>
+        Already registered?
+        <Link to={"/log-in"}> Log In here.</Link>
+      </p>
+      <form
+        onSubmit={handleSubmit}
+        className="font-OpenSans text-sm text-neutral-300"
+      >
         <p>
-          {errorReview}: {emptyFields.join(", ")}
+          I watched <span className="text-neutral-50">{movieTitle}</span>:
         </p>
-      )}
-    </form>
+        <label htmlFor="content">Add Your Review: </label>
+        <input
+          type="text"
+          id="content"
+          onChange={(e) => setContent(e.target.value)}
+          value={content}
+          maxLength={1000}
+        />
+        <br />
+        <p>Add Your Rating: </p>
+        <div className="flex flex-row-reverse justify-end">
+          <input
+            type="radio"
+            id="star5"
+            name="rate"
+            value="5"
+            onChange={(e) => setRating(e.target.value)}
+            className="hidden peer"
+          />
+          <label
+            htmlFor="star5"
+            title="text"
+            className="peer-hover:text-blue-400 hover:text-blue-400 peer-checked:text-green-400 text-3xl"
+          >
+            ★
+          </label>
+          <input
+            type="radio"
+            id="star4"
+            name="rate"
+            value="4"
+            onChange={(e) => setRating(e.target.value)}
+            className="hidden peer"
+          />
+          <label
+            htmlFor="star4"
+            title="text"
+            className="peer-hover:text-blue-400 hover:text-blue-400 peer-checked:text-green-400 text-3xl"
+          >
+            ★
+          </label>
+          <input
+            type="radio"
+            id="star3"
+            name="rate"
+            value="3"
+            onChange={(e) => setRating(e.target.value)}
+            className="hidden peer"
+          />
+          <label
+            htmlFor="star3"
+            title="text"
+            className="peer-hover:text-blue-400 hover:text-blue-400 peer-checked:text-green-400 text-3xl"
+          >
+            ★
+          </label>
+          <input
+            type="radio"
+            id="star2"
+            name="rate"
+            value="2"
+            onChange={(e) => setRating(e.target.value)}
+            className="hidden peer"
+          />
+          <label
+            htmlFor="star2"
+            title="text"
+            className="peer-hover:text-blue-400 hover:text-blue-400 peer-checked:text-green-400 text-3xl"
+          >
+            ★
+          </label>
+          <input
+            type="radio"
+            id="star1"
+            name="rate"
+            value="1"
+            onChange={(e) => setRating(e.target.value)}
+            className="hidden peer"
+          />
+          <label
+            htmlFor="star1"
+            title="text"
+            className="peer-hover:text-blue-400 hover:text-blue-400 peer-checked:text-green-400 text-3xl"
+          >
+            ★
+          </label>
+        </div>
+        <button>post</button>
+        {errorReview && (
+          <p>
+            {errorReview}: {emptyFields.join(", ")}
+          </p>
+        )}
+      </form>
+    </>
   );
 }

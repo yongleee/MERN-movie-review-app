@@ -11,45 +11,47 @@ const TheNavbar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${searchField}`);
+    if (searchField) {
+      navigate(`/search/${searchField}`);
+    }
   };
 
   //TODO: fix error404 when search an empty route
 
   return (
-    <div className="bg-zinc-800">
+    <div className="bg-neutral-800">
       <div className="flex justify-between max-w-5xl mx-auto px-4 py-2 items-center">
         <Link to="/">
-          <h1 className="font-semibold text-[27px] text-zinc-50 font-OpenSans text-gradient-to-r from-cyan-500 to-blue-500 tracking-wide">
+          <h1 className="font-semibold text-[27px] text-neutral-50 font-OpenSans text-gradient-to-r from-cyan-500 to-blue-500 tracking-wide">
             Kinopicks
           </h1>
         </Link>
         <div className="flex items-center">
           <Link to="/log-in">
-            <p className="font-semibold text-[13px]	text-center px-2.5 text-zinc-200 hover:text-slate-50 font-OpenSans tracking-wide">
+            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
               LOG IN
             </p>
           </Link>
           <Link to="/sign-up">
-            <p className="font-semibold text-[13px]	text-center px-2.5 text-zinc-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
               SIGN UP
             </p>
           </Link>
           <Link to="/user">
-            <p className="font-semibold text-[13px]	text-center px-2.5 text-zinc-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
               PROFILE
             </p>
           </Link>
-          <form onSubmit={handleSubmit} className="px-2.5 relative w-48">
+          <form onSubmit={handleSubmit} className="px-3 relative w-48">
             <input
               type="text"
               id="search"
               value={searchField}
               onChange={handleChange}
               placeholder="Search Movies..."
-              className="w-full rounded-3xl pl-3 pr-8 text-[13px] h-6"
+              className="w-full rounded-3xl pl-3 pr-8 text-[13px] h-6 outline-0"
             />
-            <button type="submit" className="z-10 absolute right-4 top-1.5">
+            <button type="submit" className="z-10 absolute right-5 top-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

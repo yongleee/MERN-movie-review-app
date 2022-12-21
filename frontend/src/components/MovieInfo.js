@@ -11,17 +11,14 @@ export default function MovieInfo({ movie }) {
   const { reviews } = useReviewsContext();
   const { API_URL } = useMoviesContext();
 
-  const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
-
   useEffect(() => {
     setAverageRating("");
-    console.log(reviews);
     if (reviews) {
       if (reviews.length > 0) {
         const totalRating = reviews.reduce((prev, cur) => prev + cur.rating, 0);
-        setAverageRating(totalRating / reviews.length);
+        setAverageRating((totalRating / reviews.length).toFixed(1));
       } else if (reviews.length === 0) {
-        setAverageRating("The movie has no rating yet");
+        setAverageRating("This movie has no rating yet");
       }
     }
   }, [reviews]);
@@ -61,13 +58,15 @@ export default function MovieInfo({ movie }) {
 
   return (
     <>
-      <img
-        src={`${IMAGE_PATH}${movie.poster_path}`}
-        alt={`Poster of ${movie.title}`}
-      />
-      <h1>{movie.title}</h1>
-      <p>Directed by: {director}</p>
-      <p>Average rating: {averageRating}</p>
+      <h1 className="font-OpenSans text-3xl text-neutral-50 font-[600]">
+        {movie.title}
+      </h1>
+      <p className="font-OpenSans text-sm text-neutral-300">
+        Directed by <span className="text-neutral-50">{director}</span>
+      </p>
+      <p className="font-OpenSans text-sm text-neutral-300">
+        Ratings: {averageRating}
+      </p>
     </>
   );
 }

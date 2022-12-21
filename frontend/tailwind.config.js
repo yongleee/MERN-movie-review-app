@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         Roboto: ["Roboto", "sans-serif"],
         OpenSans: ["Open Sans", "sans-serif"],
+        Playfair: ["Playfair Display", "serif"],
       },
     },
   },

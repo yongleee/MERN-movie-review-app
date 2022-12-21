@@ -23,10 +23,17 @@ export default function Home() {
   }, [API_URL]);
 
   return (
-    <div>
-      {discoverMovies.map((movie) => (
-        <MovieCards key={movie.id} movie={movie} />
-      ))}
-    </div>
+    <>
+      <p className="font-OpenSans text-sm text-neutral-300 mb-0.5">
+        POPULAR MOVIES
+      </p>
+      <hr className="border-t-neutral-300" />
+      <ul className="flex flex-wrap mt-5">
+        {discoverMovies.map((movie) => (
+          <MovieCards key={movie.id} movie={movie} />
+        ))}
+      </ul>
+      <hr className="border-t-neutral-300 mt-1 pb-4" />
+    </>
   );
 }
