@@ -7,6 +7,7 @@ module.exports = {
         Roboto: ["Roboto", "sans-serif"],
         OpenSans: ["Open Sans", "sans-serif"],
         Playfair: ["Playfair Display", "serif"],
+        Tinos: ["Tinos", "serif"],
       },
     },
   },
