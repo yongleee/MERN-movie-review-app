@@ -9,7 +9,9 @@ const {
 const router = express.Router();
 
 router.route("/login").post(logInUser);
+
 router.route("/refresh").get(refresh);
+
 router.route("/logout").post(logOutUser);
 
 module.exports = router;

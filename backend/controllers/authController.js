@@ -34,7 +34,14 @@ const logInUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
 
-    res.status(200).json({ userId: user._id, emailOrUsername, accessToken });
+    res
+      .status(200)
+      .json({
+        username: user.username,
+        email: user.email,
+        watchlist: user.watchlist,
+        accessToken,
+      });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

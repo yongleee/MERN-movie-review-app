@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,14 +9,15 @@ export default function SignUp() {
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(true);
 
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  const { dispatch } = useAuthContext();
+  const [errorMsg, setErrorMsg] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setErrorMsg("");
+
     const match = password === matchPwd;
     setValidMatch(match);
     if (match) {
@@ -27,11 +27,8 @@ export default function SignUp() {
         const response = await axios.post("/api/users/sign-up", newUser, {
           withCredentials: true,
         });
-        setErrorMsg(null);
-        console.log(response);
         if (response.statusText === "OK") {
-          // TODO: dispatch to context
-          dispatch({ type: "LOGIN", payload: response.data });
+          navigate("/log-in");
         }
       } catch (err) {
         const {
@@ -39,12 +36,14 @@ export default function SignUp() {
         } = err;
         setErrorMsg(data.error);
       }
-      navigate("/");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="font-OpenSans text-sm text-neutral-300"
+    >
       {/* TODO: display error message here */}
       <h1>Sign Up</h1>
       <label htmlFor="email">Email: </label>
@@ -53,6 +52,7 @@ export default function SignUp() {
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        className="text-neutral-800"
       />
       <label htmlFor="username">Username: </label>
       <input
@@ -60,6 +60,7 @@ export default function SignUp() {
         type="text"
         onChange={(e) => setUsername(e.target.value)}
         value={username}
+        className="text-neutral-800"
       />
       <label htmlFor="password">Password: </label>
       <input
@@ -67,6 +68,7 @@ export default function SignUp() {
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
+        className="text-neutral-800"
       />
       <label htmlFor="matchPwd">Confirm Password: </label>
       <input
@@ -74,10 +76,11 @@ export default function SignUp() {
         type="password"
         onChange={(e) => setMatchPwd(e.target.value)}
         value={matchPwd}
+        className="text-neutral-800"
       />
       {!validMatch && <p>Password doesn't match.</p>}
-      <button>Sign Up</button>
       {errorMsg && <p>{errorMsg}</p>}
+      <button>Sign Up</button>
       <p>Already registered?</p>
       <Link to={"/log-in"}>Log In</Link>
     </form>
