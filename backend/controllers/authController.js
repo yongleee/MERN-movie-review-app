@@ -15,7 +15,7 @@ const logInUser = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "10s" }
     );
 
     const refreshToken = jwt.sign(
@@ -34,14 +34,12 @@ const logInUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
 
-    res
-      .status(200)
-      .json({
-        username: user.username,
-        email: user.email,
-        watchlist: user.watchlist,
-        accessToken,
-      });
+    res.status(200).json({
+      username: user.username,
+      email: user.email,
+      watchlist: user.watchlist,
+      accessToken,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

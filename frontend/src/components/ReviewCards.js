@@ -1,12 +1,14 @@
-import axios from "axios";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { useAxiosPrivate } from "../hooks/useAxiosPrivate";
 
 export default function ReviewCards({ id, content, rating, timeAdded }) {
   const { dispatch } = useReviewsContext();
 
+  const axiosPrivate = useAxiosPrivate();
+
   const handleClick = async () => {
-    const response = await axios.delete(`/api/reviews/${id}`);
+    const response = await axiosPrivate.delete(`/api/reviews/${id}`);
 
     if (response.statusText === "OK") {
       dispatch({ type: "DELETE_REVIEW", payload: response.data });

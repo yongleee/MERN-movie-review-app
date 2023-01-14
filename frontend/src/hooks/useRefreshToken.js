@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuthContext } from "./useAuthContext";
 
 export const useRefreshToken = () => {
-  const { dispatch } = useAuthContext();
+  const { setAuth } = useAuthContext();
 
   const refresh = async () => {
     const response = await axios.get("/api/auths/refresh", {

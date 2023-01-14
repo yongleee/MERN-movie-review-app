@@ -6,6 +6,8 @@ import NotFound from "./pages/NotFound";
 import UserProfile from "./pages/UserProfile";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import Watchlist from "./pages/Watchlist";
+import UserReviews from "./pages/UserReviews";
 import TheNavbar from "./components/TheNavbar";
 
 function App() {
@@ -16,7 +18,12 @@ function App() {
         <div className="mx-auto max-w-5xl px-4 pt-2 h-full">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/user" element={<UserProfile />} />
+            <Route path="/user" element={<UserProfile />}>
+              <Route index element={<Watchlist />} />
+              <Route path="watchlist" element={<Watchlist />} />
+              <Route path="reviews" element={<UserReviews />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
             <Route path="/search/:searchId" element={<Search />} />
             <Route path="/movie/:movieId" element={<MoviePage />} />
             <Route path="/sign-up" element={<SignUp />} />
