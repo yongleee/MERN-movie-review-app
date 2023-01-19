@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const reviewRoutes = require("./routes/reviews");
 const movieRoutes = require("./routes/movies");
@@ -8,6 +9,8 @@ const authRoutes = require("./routes/auths");
 const userRoutes = require("./routes/users");
 
 const app = express();
+
+app.use(cors());
 
 // A middleware that looks for data passing through request to the server and attaches it to the request object (req.body)
 app.use(express.json());

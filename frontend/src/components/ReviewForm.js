@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { useReviewsContext } from "../hooks/useReviewsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { axiosPrivate } from "../api/axios";
 
 export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const { dispatch } = useReviewsContext();
+  const { auth } = useAuthContext();
+
+  const userId = auth?.userId;
 
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [errorReview, setErrorReview] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitReview = async (e) => {
     e.preventDefault();
 
     let movieId = "";
@@ -25,7 +30,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
     }
 
     if (movieId) {
-      const review = { movieId, content, rating };
+      const review = { movieId, content, rating, userId };
 
       try {
         const response = await axios.post("/api/reviews", review);
@@ -43,20 +48,49 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
     }
   };
 
+  const handleClickWatchlist = async () => {
+    let movieId = "";
+    if (!movieIdForDB) {
+      const newMovieId = await axios.post("/api/movies", {
+        movieTitle,
+      });
+      movieId = newMovieId.data;
+    } else {
+      movieId = movieIdForDB;
+    }
+
+    if (userId) {
+      const response = await axiosPrivate.patch(
+        `/api/users/update-watchlist/${userId}`,
+        movieId
+      );
+      console.log(response?.data);
+    }
+  };
+
   // TODO: Stying: Add modal when working on design (check chrome bookmark for reference)
   // TODO: Stying: Work on: "if empty fields when submit show error messages with tailwind" when working on styling
   return (
     <>
-      <p>
-        Continue leaving a review anonymously or
-        <Link to={"/sign-up"}> Sign Up.</Link>
-      </p>
-      <p>
-        Already registered?
-        <Link to={"/log-in"}> Log In here.</Link>
-      </p>
+      {auth ? (
+        <>
+          <button onClick={handleClickWatchlist}>Add To Watchlist</button>
+        </>
+      ) : (
+        <>
+          <p>Sign up or log in to add this movie to your watchlist.</p>
+          <p>
+            Continue leaving a review anonymously or
+            <Link to={"/sign-up"}> Sign Up.</Link>
+          </p>
+          <p>
+            Already registered?
+            <Link to={"/log-in"}> Log In here.</Link>
+          </p>
+        </>
+      )}
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitReview}
         className="font-OpenSans text-sm text-neutral-300"
       >
         <p>

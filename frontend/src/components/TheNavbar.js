@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const TheNavbar = () => {
   const [searchField, setSearchField] = useState("");
   const navigate = useNavigate();
+  const { auth } = useAuthContext();
 
   const handleChange = (e) => {
     setSearchField(e.target.value);
@@ -27,21 +29,28 @@ const TheNavbar = () => {
           </h1>
         </Link>
         <div className="flex items-center">
-          <Link to="/log-in">
-            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
-              LOG IN
-            </p>
-          </Link>
-          <Link to="/sign-up">
-            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
-              SIGN UP
-            </p>
-          </Link>
-          <Link to="/user">
-            <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
-              PROFILE
-            </p>
-          </Link>
+          {!auth ? (
+            <>
+              <Link to="/log-in">
+                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                  LOG IN
+                </p>
+              </Link>
+              <Link to="/sign-up">
+                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                  SIGN UP
+                </p>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/user">
+                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                  PROFILE
+                </p>
+              </Link>
+            </>
+          )}
           <form onSubmit={handleSubmit} className="px-3 relative w-48">
             <input
               type="text"

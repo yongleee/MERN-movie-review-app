@@ -38,6 +38,7 @@ const logInUser = async (req, res) => {
       username: user.username,
       email: user.email,
       watchlist: user.watchlist,
+      userId: user._id,
       accessToken,
     });
   } catch (error) {
