@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 import ReviewCards from "./ReviewCards";
 

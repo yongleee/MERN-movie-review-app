@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const credentials = require("./middleware/credentials");
+const corsOptions = require("./config/corsOptions");
 const reviewRoutes = require("./routes/reviews");
 const movieRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auths");
@@ -10,7 +12,9 @@ const userRoutes = require("./routes/users");
 
 const app = express();
 
-app.use(cors());
+app.use(credentials);
+
+app.use(cors(corsOptions));
 
 // A middleware that looks for data passing through request to the server and attaches it to the request object (req.body)
 app.use(express.json());

@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { axiosPrivate } from "../api/axios";
+import axios from "../api/axios";
+import { useAxiosPrivate } from "../hooks/useAxiosPrivate";
 
 export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const { dispatch } = useReviewsContext();
   const { auth } = useAuthContext();
+  const axiosPrivate = useAxiosPrivate();
 
   const userId = auth?.userId;
 
@@ -15,6 +16,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const [rating, setRating] = useState(0);
   const [errorReview, setErrorReview] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const [hasAddedToWL, setHasAddedToWL] = useState(false);
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
@@ -60,11 +62,20 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
     }
 
     if (userId) {
-      const response = await axiosPrivate.patch(
-        `/api/users/update-watchlist/${userId}`,
-        movieId
-      );
-      console.log(response?.data);
+      try {
+        const response = await axiosPrivate.patch(
+          `/api/users/update-watchlist/${userId}`,
+          {
+            movieId,
+          }
+        );
+        if (response.statusText === "OK") {
+          setHasAddedToWL((prev) => !prev);
+        }
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 
@@ -74,7 +85,13 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
     <>
       {auth ? (
         <>
-          <button onClick={handleClickWatchlist}>Add To Watchlist</button>
+          <button onClick={handleClickWatchlist}>
+            {!hasAddedToWL ? (
+              <p>Add To Watchlist</p>
+            ) : (
+              <p>Remove From Watchlist</p>
+            )}
+          </button>
         </>
       ) : (
         <>

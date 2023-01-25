@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios";
 
 export default function LogIn() {
   const [emailOrUsername, setEmailOrUsername] = useState("");

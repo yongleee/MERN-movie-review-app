@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import MovieInfo from "../components/MovieInfo";
