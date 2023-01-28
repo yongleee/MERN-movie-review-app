@@ -39,21 +39,10 @@ const getMovieByID = async (req, res) => {
 
 // create new movie
 const createMovie = async (req, res) => {
-  const { movieTitle } = req.body;
-
-  let emptyFields = [];
-
-  if (!movieTitle) {
-    emptyFields.push("title");
-  }
-  if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({ error: "Please fill in all the fields", emptyFields });
-  }
+  const { movieTitle, posterPath, TMDBId } = req.body;
 
   try {
-    const movie = await Movie.create({ movieTitle });
+    const movie = await Movie.create({ movieTitle, posterPath, TMDBId });
     res.status(200).json(movie._id);
   } catch (error) {
     res.status(400).json({ error: error.message });

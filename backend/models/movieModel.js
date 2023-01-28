@@ -9,6 +9,16 @@ const movieSchema = new Schema(
       required: true,
       unique: true,
     },
+    posterPath: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    TMDBId: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true }
 );

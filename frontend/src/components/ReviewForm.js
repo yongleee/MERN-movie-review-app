@@ -12,6 +12,9 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
 
   const userId = auth?.userId;
 
+  const movieId = movieIdForDB;
+  console.log(movieId);
+
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const [errorReview, setErrorReview] = useState(null);
@@ -21,17 +24,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
 
-    let movieId = "";
-    if (!movieIdForDB) {
-      const newMovieId = await axios.post("/api/movies", {
-        movieTitle,
-      });
-      movieId = newMovieId.data;
-    } else {
-      movieId = movieIdForDB;
-    }
-
-    if (movieId) {
+    if (movieId !== "NO_ID" && movieId) {
       const review = { movieId, content, rating, userId };
 
       try {
@@ -51,16 +44,6 @@ export default function ReviewForm({ movieTitle, movieIdForDB }) {
   };
 
   const handleClickWatchlist = async () => {
-    let movieId = "";
-    if (!movieIdForDB) {
-      const newMovieId = await axios.post("/api/movies", {
-        movieTitle,
-      });
-      movieId = newMovieId.data;
-    } else {
-      movieId = movieIdForDB;
-    }
-
     if (userId) {
       try {
         const response = await axiosPrivate.patch(

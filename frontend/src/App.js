@@ -6,7 +6,7 @@ import NotFound from "./pages/NotFound";
 import UserProfile from "./pages/UserProfile";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-import Watchlist from "./pages/Watchlist";
+import UserWatchlist from "./pages/UserWatchlist";
 import UserReviews from "./pages/UserReviews";
 import TheNavbar from "./components/TheNavbar";
 
@@ -19,8 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/user" element={<UserProfile />}>
-              <Route index element={<Watchlist />} />
-              <Route path="watchlist" element={<Watchlist />} />
+              <Route index element={<UserWatchlist />} />
+              <Route path="watchlist" element={<UserWatchlist />} />
               <Route path="reviews" element={<UserReviews />} />
               <Route path="*" element={<NotFound />} />
             </Route>

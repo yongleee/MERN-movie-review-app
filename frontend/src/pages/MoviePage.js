@@ -21,24 +21,42 @@ export default function MoviePage() {
 
   const IMAGE_PATH = "https://image.tmdb.org/t/p/w300";
 
+  const movieTitle = movie.title;
+  const posterPath = movie.poster_path;
+  const TMDBId = movie.id;
+
   useEffect(() => {
     dispatch({ type: "RESET_REVIEWS" });
     const fetchMovieIdFromDB = async () => {
-      const movieTitle = movie.title;
       const existedMovieId = await axios.get(`/api/movies/title/${movieTitle}`);
 
       if (existedMovieId.data) {
         setMovieIdForDB(existedMovieId.data);
       } else {
-        setHasCheckedMovieId(true);
+        setMovieIdForDB("NO_ID");
       }
     };
 
     fetchMovieIdFromDB();
-  }, [movie.title, dispatch]);
+  }, [dispatch, movieTitle]);
 
   useEffect(() => {
-    if (movieIdForDB) {
+    const createMovieDB = async () => {
+      const newMovieId = await axios.post("/api/movies", {
+        movieTitle,
+        posterPath,
+        TMDBId,
+      });
+      setMovieIdForDB(newMovieId.data);
+    };
+
+    if (movieIdForDB === "NO_ID") {
+      createMovieDB();
+    }
+  }, [TMDBId, movieTitle, posterPath, movieIdForDB]);
+
+  useEffect(() => {
+    if (movieIdForDB !== "NO_ID" && movieIdForDB) {
       setHasCheckedMovieId(true);
     }
   }, [movieIdForDB]);
