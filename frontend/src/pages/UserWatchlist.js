@@ -1,23 +1,45 @@
+import { useEffect, useState } from "react";
 import axios from "../api/axios";
-import { useEffect } from "react";
+import MovieCards from "../components/MovieCards";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useFetchTMDB } from "../hooks/useFetchTMDB";
 
 const UserWatchlist = () => {
-  const { auth } = useAuthContext();
-  const username = auth.username;
+  const [userWL, setUserWL] = useState([]);
 
-  console.log(username);
+  const { auth } = useAuthContext();
+  const fetchMovieByID = useFetchTMDB();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const { data } = await axios.get(`/api/users/username/${username}`);
-      console.log(data.watchlist);
+    const fetchUserData = async (username) => {
+      const {
+        data: { watchlist },
+      } = await axios.get(`/api/users/username/${username}`);
+
+      const movieData = await Promise.all(
+        watchlist.map(async (movie) => {
+          const results = await fetchMovieByID(movie.movieId.TMDBId);
+          return results;
+        })
+      );
+      setUserWL(movieData.reverse());
     };
 
-    fetchUserData();
-  }, [username]);
+    if (auth) {
+      fetchUserData(auth?.username);
+    }
+    // eslint-disable-next-line
+  }, [auth]);
 
-  return;
+  return (
+    <>
+      <ul className="flex flex-wrap mt-5">
+        {userWL.map((movie) => (
+          <MovieCards key={movie.id} movie={movie} />
+        ))}
+      </ul>
+    </>
+  );
 };
 
 export default UserWatchlist;

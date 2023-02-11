@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import ReviewForm from "../components/ReviewForm";
 import ReviewList from "../components/ReviewList";
 import MovieInfo from "../components/MovieInfo";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useReviewsContext } from "../hooks/useReviewsContext";
 
 // TODO: add date for review added (done)
@@ -12,7 +13,9 @@ import { useReviewsContext } from "../hooks/useReviewsContext";
 export default function MoviePage() {
   const [movieIdForDB, setMovieIdForDB] = useState("");
   const [hasCheckedMovieId, setHasCheckedMovieId] = useState(false);
+  const [hasAddedToWL, setHasAddedToWL] = useState(false);
 
+  const { auth } = useAuthContext();
   const { dispatch } = useReviewsContext();
 
   const {
@@ -25,6 +28,25 @@ export default function MoviePage() {
   const posterPath = movie.poster_path;
   const TMDBId = movie.id;
 
+  // check if the movie is in user's watchlist
+  useEffect(() => {
+    const fetchUserData = async (username) => {
+      const { data } = await axios.get(`/api/users/username/${username}`);
+      const isAddedToWL = data?.watchlist.find(
+        (movie) => movie.movieId._id === movieIdForDB
+      );
+
+      if (isAddedToWL) {
+        setHasAddedToWL(true);
+      }
+    };
+
+    if (auth) {
+      fetchUserData(auth?.username);
+    }
+  }, [auth, movieIdForDB]);
+
+  // fetch movie id from db
   useEffect(() => {
     dispatch({ type: "RESET_REVIEWS" });
     const fetchMovieIdFromDB = async () => {
@@ -40,6 +62,7 @@ export default function MoviePage() {
     fetchMovieIdFromDB();
   }, [dispatch, movieTitle]);
 
+  // create movie db for db
   useEffect(() => {
     const createMovieDB = async () => {
       const newMovieId = await axios.post("/api/movies", {
@@ -55,6 +78,7 @@ export default function MoviePage() {
     }
   }, [TMDBId, movieTitle, posterPath, movieIdForDB]);
 
+  // check if movieid in db exist
   useEffect(() => {
     if (movieIdForDB !== "NO_ID" && movieIdForDB) {
       setHasCheckedMovieId(true);
@@ -71,7 +95,11 @@ export default function MoviePage() {
         />
         <div className="ml-4">
           <MovieInfo movie={movie} />
-          <ReviewForm movieTitle={movie.title} movieIdForDB={movieIdForDB} />
+          <ReviewForm
+            movieTitle={movie.title}
+            movieIdForDB={movieIdForDB}
+            hasAddedToWL={hasAddedToWL}
+          />
           <ReviewList
             movieIdForDB={movieIdForDB}
             hasCheckedMovieId={hasCheckedMovieId}

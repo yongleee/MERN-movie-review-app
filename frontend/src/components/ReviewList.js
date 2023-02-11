@@ -22,6 +22,7 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
 
     fetchReviewsByMovieId();
   }, [hasCheckedMovieId, movieIdForDB, dispatch]);
+  console.log(reviews);
 
   return (
     <ul>
@@ -33,6 +34,7 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
             content={review.content}
             rating={review.rating}
             timeAdded={review.createdAt}
+            userInfo={review?.userId}
           />
         ))}
     </ul>
