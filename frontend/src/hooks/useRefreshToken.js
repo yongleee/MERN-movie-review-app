@@ -11,10 +11,13 @@ export const useRefreshToken = () => {
 
     if (response.statusText === "OK") {
       setAuth((prev) => {
-        console.log(JSON.stringify(prev));
-        console.log(response.data.accessToken);
+        console.log(`refresh prev ${JSON.stringify(prev)}`);
+        console.log(`refresh ${JSON.stringify(response.data)}`);
         return {
-          ...prev,
+          username: response.data.username,
+          email: response.data.email,
+          watchlist: response.data.watchlist,
+          userId: response.data.userId,
           accessToken: response.data.accessToken,
         };
       });

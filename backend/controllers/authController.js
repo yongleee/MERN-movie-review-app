@@ -79,7 +79,15 @@ const refresh = (req, res) => {
         { expiresIn: "15m" }
       );
 
-      res.json({ accessToken });
+      console.log(user._id);
+
+      res.json({
+        username: user.username,
+        email: user.email,
+        watchlist: user.watchlist,
+        userId: user._id,
+        accessToken,
+      });
     }
   );
 };
