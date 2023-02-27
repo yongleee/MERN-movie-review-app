@@ -1,17 +1,24 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useAxiosPrivate } from "../hooks/useAxiosPrivate";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(true);
-
   const [errorMsg, setErrorMsg] = useState("");
 
+  const { setAuth } = useAuthContext();
+  const axiosPrivate = useAxiosPrivate();
+
   const navigate = useNavigate();
+  const { token } = useParams();
+
+  useEffect(() => {
+    setAuth({ accessToken: token });
+    // eslint-disable-next-line
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +28,12 @@ export default function SignUp() {
     const match = password === matchPwd;
     setValidMatch(match);
     if (match) {
-      const newUser = { email, password, username };
-
       try {
-        const response = await axios.post("/api/users/sign-up", newUser, {
-          withCredentials: true,
+        const response = await axiosPrivate.post("/api/users/reset-password", {
+          password,
         });
         if (response.statusText === "OK") {
+          setAuth(null);
           navigate("/log-in");
         }
       } catch (err) {
@@ -44,23 +50,6 @@ export default function SignUp() {
       onSubmit={handleSubmit}
       className="font-OpenSans text-sm text-neutral-300"
     >
-      <h1>Sign Up</h1>
-      <label htmlFor="email">Email: </label>
-      <input
-        id="email"
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        className="text-neutral-800"
-      />
-      <label htmlFor="username">Username: </label>
-      <input
-        id="username"
-        type="text"
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-        className="text-neutral-800"
-      />
       <label htmlFor="password">Password: </label>
       <input
         id="password"
@@ -79,9 +68,7 @@ export default function SignUp() {
       />
       {!validMatch && <p>Password doesn't match.</p>}
       {errorMsg && <p>{errorMsg}</p>}
-      <button>Sign Up</button>
-      <p>Already registered?</p>
-      <Link to={"/log-in"}>Log In</Link>
+      <button>Reset Password</button>
     </form>
   );
 }

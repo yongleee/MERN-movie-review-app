@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Review = require("../models/reviewModel");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
@@ -168,6 +169,8 @@ const deleteUser = async (req, res) => {
   if (!user) {
     return res.status(404).json({ error: "No such user" });
   }
+
+  await Review.deleteMany({ userId: id });
 
   res.status(200).json(user);
 };

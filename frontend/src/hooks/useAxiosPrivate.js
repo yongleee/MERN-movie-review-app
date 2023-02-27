@@ -21,7 +21,7 @@ export const useAxiosPrivate = () => {
 
     const responseIntercept = axiosPrivate.interceptors.response.use(
       (response) => response,
-      // if the access token expired, an error of 403 forbidden will be sent through the request to the rontend
+      // if the access token expired, an error of 403 forbidden will be sent through the request to the frontend
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {

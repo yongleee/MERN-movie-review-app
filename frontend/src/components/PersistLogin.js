@@ -2,13 +2,11 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useRefreshToken } from "../hooks/useRefreshToken";
-// import useLocalStorage from "../hooks/useLocalStorage";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
   const { auth } = useAuthContext();
-  // const [persist] = useLocalStorage("persist", false);
   console.log(auth);
 
   useEffect(() => {
@@ -24,16 +22,16 @@ const PersistLogin = () => {
       }
     };
 
-    // persist added here AFTER tutorial video
-    // Avoids unwanted call to verifyRefreshToken
     !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (isMounted = false);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     console.log(`isLoading: ${isLoading}`);
     console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
+    // eslint-disable-next-line
   }, [isLoading]);
 
   return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;

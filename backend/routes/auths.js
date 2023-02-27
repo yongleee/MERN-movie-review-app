@@ -12,6 +12,6 @@ router.route("/login").post(logInUser);
 
 router.route("/refresh").get(refresh);
 
-router.route("/logout").post(logOutUser);
+router.route("/logout").get(logOutUser);
 
 module.exports = router;

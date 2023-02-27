@@ -29,7 +29,7 @@ const TheNavbar = () => {
           </h1>
         </Link>
         <div className="flex items-center">
-          {!auth ? (
+          {!auth?.email ? (
             <>
               <Link to="/log-in">
                 <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
