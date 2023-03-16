@@ -37,8 +37,15 @@ const getReviewsByMovie = async (req, res) => {
     return res.status(404).json({ error: "No such movie id" });
   }
 
+  const PAGE_SIZE = 10;
+  const page = parseInt(req.query.page || "0");
+
+  const reviewsCount = await Review.countDocuments({ movieId: id });
+
   const reviews = await Review.find({ movieId: id })
     .sort({ createdAt: -1 })
+    .limit(PAGE_SIZE)
+    .skip(PAGE_SIZE * (page - 1))
     .populate("movieId")
     .populate({ path: "userId", select: "username" });
 
@@ -46,7 +53,9 @@ const getReviewsByMovie = async (req, res) => {
     return res.status(404).json({ error: "Movie not registered in database" });
   }
 
-  res.status(200).json(reviews);
+  res
+    .status(200)
+    .json({ totalPages: Math.ceil(reviewsCount / PAGE_SIZE), reviews });
 };
 
 const getReviewsByUser = async (req, res) => {
@@ -56,8 +65,15 @@ const getReviewsByUser = async (req, res) => {
     return res.status(404).json({ error: "No such user id" });
   }
 
+  const PAGE_SIZE = 10;
+  const page = parseInt(req.query.page || "0");
+
+  const reviewsCount = await Review.countDocuments({ userId: id });
+
   const reviews = await Review.find({ userId: id })
     .sort({ createdAt: -1 })
+    .limit(PAGE_SIZE)
+    .skip(PAGE_SIZE * (page - 1))
     .populate("movieId")
     .populate({ path: "userId", select: "username" });
 
@@ -65,7 +81,9 @@ const getReviewsByUser = async (req, res) => {
     return res.status(404).json({ error: "User not registered in database" });
   }
 
-  res.status(200).json(reviews);
+  res
+    .status(200)
+    .json({ totalPages: Math.ceil(reviewsCount / PAGE_SIZE), reviews });
 };
 
 // create new review

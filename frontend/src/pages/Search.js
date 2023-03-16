@@ -8,7 +8,6 @@ export default function Search() {
   const [searchMovies, setSearchMovies] = useState([]);
   const { API_URL } = useMoviesContext();
   const { searchId } = useParams();
-  console.log(searchId);
 
   useEffect(() => {
     const fetchSearchMovies = async () => {
@@ -30,7 +29,7 @@ export default function Search() {
   return (
     <>
       <p className="font-OpenSans text-sm text-neutral-300 mb-0.5">
-        SEARCH RESULTS:
+        SEARCH RESULTS
       </p>
       <hr className="border-t-neutral-300" />
       <ul className="flex flex-wrap mt-5">

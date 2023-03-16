@@ -5,6 +5,7 @@ const {
   createNewUser,
   getAllUsers,
   getUserByUsername,
+  getUserWatchlist,
   updatePassword,
   updateUsername,
   updateWatchlist,
@@ -27,6 +28,8 @@ router.route("/sign-up").post(createNewUser);
 router.route("/forgot-password").post(forgotPassword);
 
 router.use(verifyJWT);
+
+router.route("/user-watchlist/:username").get(getUserWatchlist);
 
 router.route("/edit-user-info/:id").delete(deleteUser).patch(updateUsername);
 

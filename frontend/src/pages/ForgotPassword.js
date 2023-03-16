@@ -31,26 +31,51 @@ export default function ForgotPassword() {
   };
 
   return (
-    <>
+    <div className="pt-16">
+      <h1 className="text-center text-2xl mb-6 text-neutral-400">
+        Forgot password
+      </h1>
       {!isSubmitted ? (
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Enter your email: </label>
-          <input
-            type="email"
-            value={email}
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {errorMsg && <p>{errorMsg}</p>}
-          <button>Submit</button>
-        </form>
+        <>
+          <p className="text-center text-neutral-300 mb-6">
+            Enter your email below and a link will be sent to you to reset your
+            password.
+          </p>
+          <div className="mx-auto w-96 p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
+            <form
+              onSubmit={handleSubmit}
+              className="font-OpenSans text-sm text-neutral-200 font-thin"
+            >
+              <label htmlFor="email" className="block pb-1.5 text-xs">
+                Enter your email
+              </label>
+              <input
+                type="email"
+                value={email}
+                id="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+              />
+              {errorMsg && (
+                <p className="text-xs pt-1 text-red-500 font-semibold">
+                  {errorMsg}
+                </p>
+              )}
+              <div className="text-center mt-6">
+                <button className="w-52 py-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 active:from-emerald-700 active:to-cyan-700 text-xs rounded">
+                  SUBMIT
+                </button>
+              </div>
+            </form>
+          </div>
+        </>
       ) : (
         <>
-          <p>
+          <p className="text-center text-neutral-300">
             {"We've emailed you a link you can use to reset your password."}
           </p>
         </>
       )}
-    </>
+    </div>
   );
 }

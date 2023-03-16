@@ -8,8 +8,5 @@ export const useAuthContext = () => {
     throw Error("useAuthContext must be used inside a AuthContextProvider");
   }
 
-  // const { auth } = useContext(AuthContext);
-  // useDebugValue(auth, (auth) => (auth?.user ? "Logged In" : "Logged Out"));
-
   return context;
 };

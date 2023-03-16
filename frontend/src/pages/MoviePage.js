@@ -87,13 +87,13 @@ export default function MoviePage() {
 
   return (
     <>
-      <div className="flex mt-3">
+      <div className="flex mt-10">
         <img
           src={`${IMAGE_PATH}${movie.poster_path}`}
           alt={`Poster of ${movie.title}`}
           className="h-[360px] w-[240px] outline outline-1 outline-neutral-50/30 rounded-sm"
         />
-        <div className="ml-4">
+        <div className="ml-9 w-full">
           <MovieInfo movie={movie} />
           <ReviewForm
             movieTitle={movie.title}

@@ -31,7 +31,6 @@ const getAllUsers = async (req, res) => {
 const getUserByUsername = async (req, res) => {
   const { username } = req.params;
   const user = await User.findOne({ username })
-    .sort({ createdAt: -1 })
     .select("-password")
     .populate({
       path: "watchlist.movieId",
@@ -39,10 +38,37 @@ const getUserByUsername = async (req, res) => {
     .lean();
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ error: "User not found" });
   }
 
   res.status(200).json(user);
+};
+
+const getUserWatchlist = async (req, res) => {
+  const { username } = req.params;
+  const PAGE_SIZE = 20;
+  const page = parseInt(req.query.page || "0");
+
+  const user = await User.findOne({ username }).select("-password").populate({
+    path: "watchlist.movieId",
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const watchlistCount = user.watchlist.length;
+
+  user.watchlist.reverse();
+
+  const watchlist = user.watchlist.slice(
+    (page - 1) * PAGE_SIZE,
+    (page - 1) * PAGE_SIZE + PAGE_SIZE
+  );
+
+  res
+    .status(200)
+    .json({ totalPages: Math.ceil(watchlistCount / PAGE_SIZE), watchlist });
 };
 
 const updatePassword = async (req, res) => {
@@ -55,24 +81,24 @@ const updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
   if (!oldPassword || !newPassword) {
-    return res.status(400).json({ message: "All fields are required" });
+    return res.status(400).json({ error: "All fields are required" });
   }
 
   const user = await User.findById(id);
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ error: "User not found" });
   }
 
   const match = await bcrypt.compare(oldPassword, user.password);
 
   if (!match) {
-    return res.status(401).json({ message: "Incorrect password" });
+    return res.status(401).json({ error: "Incorrect password" });
   }
 
   if (!validator.isStrongPassword(newPassword)) {
     return res.status(400).json({
-      message:
+      error:
         "Passwords must contain at least 8 characters in upper and lowercase, with at least 1 number and 1 symbol.",
     });
   }
@@ -99,19 +125,19 @@ const updateUsername = async (req, res) => {
   const { newUsername } = req.body;
 
   if (!newUsername) {
-    return res.status(400).json({ message: "All fields are required" });
+    return res.status(400).json({ error: "All fields are required" });
   }
 
   const user = await User.findById(id);
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ error: "User not found" });
   }
 
   const duplicate = await User.findOne({ newUsername });
 
   if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate username" });
+    return res.status(409).json({ error: "Duplicate username" });
   }
 
   const updatedUser = await User.findOneAndUpdate(
@@ -179,6 +205,7 @@ module.exports = {
   createNewUser,
   getAllUsers,
   getUserByUsername,
+  getUserWatchlist,
   updatePassword,
   updateUsername,
   updateWatchlist,

@@ -9,7 +9,7 @@ const forgotPassword = async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user)
-      return res.status(401).json({ message: "User email doesn't exist" });
+      return res.status(401).json({ error: "User email doesn't exist" });
 
     const accessToken = jwt.sign(
       {
@@ -30,7 +30,7 @@ const forgotPassword = async (req, res) => {
       .status(200)
       .json({ msg: "Re-send the password, please check your email." });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -40,7 +40,7 @@ const resetPassword = async (req, res) => {
 
     if (!validator.isStrongPassword(password)) {
       return res.status(400).json({
-        message:
+        error:
           "Passwords must contain at least 8 characters in upper and lowercase, with at least 1 number and 1 symbol.",
       });
     }
@@ -56,7 +56,7 @@ const resetPassword = async (req, res) => {
 
     res.status(200).json(`${updatedUser.username}'s password updated`);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 

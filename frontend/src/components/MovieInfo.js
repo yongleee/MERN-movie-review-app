@@ -18,7 +18,7 @@ export default function MovieInfo({ movie }) {
         const totalRating = reviews.reduce((prev, cur) => prev + cur.rating, 0);
         setAverageRating((totalRating / reviews.length).toFixed(1));
       } else if (reviews.length === 0) {
-        setAverageRating("This movie has no rating yet.");
+        setAverageRating(null);
       }
     }
   }, [reviews]);
@@ -60,13 +60,20 @@ export default function MovieInfo({ movie }) {
     <>
       <p className="font-Tinos text-4xl text-neutral-50">
         {movie.title}
-        <span className="font-OpenSans text-sm text-neutral-300 mx-4">
+        <span className="font-OpenSans text-sm text-neutral-400 mx-4">
           <span className="mr-3">{movie.release_date.substring(0, 4)}</span>
-          Directed by <span className="text-neutral-50">{director}</span>
+          Directed by <span className="text-neutral-300">{director}</span>
         </span>
       </p>
-      <p className="font-OpenSans text-sm text-neutral-300 my-4">
-        Ratings: {averageRating}
+      <p className="font-OpenSans text-neutral-400 my-4">
+        Average Ratings:
+        {averageRating ? (
+          <span className="font-OpenSans text-2xl text-neutral-300 ml-2">
+            {averageRating}
+          </span>
+        ) : (
+          <span> This movie has no rating yet.</span>
+        )}
       </p>
     </>
   );

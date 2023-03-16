@@ -24,7 +24,7 @@ const TheNavbar = () => {
     <div className="bg-neutral-800">
       <div className="flex justify-between max-w-5xl mx-auto px-4 py-2 items-center">
         <Link to="/">
-          <h1 className="font-semibold text-[27px] text-neutral-50 font-OpenSans text-gradient-to-r from-cyan-500 to-blue-500 tracking-wide">
+          <h1 className="font-semibold text-[27px] text-neutral-50 font-OpenSans text-gradient-to-r from-cyan-500 to-blue-500 tracking-wide align-middle">
             Kinopicks
           </h1>
         </Link>
@@ -32,12 +32,12 @@ const TheNavbar = () => {
           {!auth?.email ? (
             <>
               <Link to="/log-in">
-                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                <p className="font-semibold text-xs	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide align-middle">
                   LOG IN
                 </p>
               </Link>
               <Link to="/sign-up">
-                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                <p className="font-semibold text-xs	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
                   SIGN UP
                 </p>
               </Link>
@@ -45,7 +45,7 @@ const TheNavbar = () => {
           ) : (
             <>
               <Link to="/user">
-                <p className="font-semibold text-[13px]	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
+                <p className="font-semibold text-xs	text-center px-3 text-neutral-200 hover:text-zinc-50 font-OpenSans tracking-wide">
                   PROFILE
                 </p>
               </Link>
