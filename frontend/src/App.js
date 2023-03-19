@@ -51,6 +51,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        <hr className="border-t-neutral-300 mt-1 pb-4" />
       </div>
     </div>
   );
