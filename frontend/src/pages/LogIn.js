@@ -26,6 +26,7 @@ export default function LogIn() {
       });
       if (response.statusText === "OK") {
         setAuth(response.data);
+        console.log(response.data);
         navigate("/");
       }
     } catch (err) {
@@ -37,7 +38,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className="pt-16">
+    <div className="py-16">
       <h1 className="text-center text-2xl mb-6 text-neutral-400">Log In</h1>
       <div className="mx-auto w-96 p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
         <form

@@ -50,7 +50,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="pt-16">
+    <div className="py-16">
       <h1 className="text-center text-2xl mb-6 text-neutral-400">
         Reset password
       </h1>

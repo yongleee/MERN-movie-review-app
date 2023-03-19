@@ -12,6 +12,7 @@ import UserWatchlist from "./pages/UserWatchlist";
 import UserReviews from "./pages/UserReviews";
 import UserAccount from "./pages/UserAccount";
 import TheNavbar from "./components/TheNavbar";
+import TheFooter from "./components/TheFooter";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
 import { useAuthContext } from "./hooks/useAuthContext";
@@ -46,13 +47,12 @@ function App() {
                 <Route path="watchlist" element={<UserWatchlist />} />
                 <Route path="reviews" element={<UserReviews />} />
                 <Route path="account" element={<UserAccount />} />
-                <Route path="*" element={<NotFound />} />
               </Route>
             </Route>
           </Route>
         </Routes>
-        <hr className="border-t-neutral-300 mt-1 pb-4" />
       </div>
+      <TheFooter />
     </div>
   );
 }
