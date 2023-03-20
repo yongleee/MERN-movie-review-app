@@ -3,12 +3,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 const reviewRoutes = require("./routes/reviews");
 const movieRoutes = require("./routes/movies");
 const authRoutes = require("./routes/auths");
 const userRoutes = require("./routes/users");
+
+const port = process.env.PORT || 5000;
 
 const app = express();
 
@@ -20,6 +23,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+});
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -37,8 +46,8 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("connected to the database");
-    app.listen(process.env.PORT, () => {
-      console.log("listening to port", process.env.PORT);
+    app.listen(port, () => {
+      console.log("listening to port", port);
     });
   })
   .catch((err) => {
