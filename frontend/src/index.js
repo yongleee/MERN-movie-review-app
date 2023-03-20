@@ -6,11 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { MoviesContextProvider } from "./contexts/MoviesContext";
 import { ReviewsContextProvider } from "./contexts/ReviewsContext";
-import { disableReactDevTools } from "@fvilers/disable-react-devtools";
-
-if (process.env.NODE_ENV === "production") {
-  disableReactDevTools();
-}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

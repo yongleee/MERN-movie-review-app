@@ -37,6 +37,7 @@ export default function Search() {
           <MovieCards key={movie.id} movie={movie} />
         ))}
       </ul>
+      <hr className="border-t-neutral-300 mt-1 pb-4" />
     </>
   );
 }
