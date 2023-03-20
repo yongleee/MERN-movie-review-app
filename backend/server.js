@@ -42,6 +42,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", require("./routes/root"));
+
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/auths", authRoutes);
