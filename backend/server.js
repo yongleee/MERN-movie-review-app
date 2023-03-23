@@ -17,7 +17,7 @@ const app = express();
 
 app.use(credentials);
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // A middleware that looks for data passing through request to the server and attaches it to the request object (req.body)
 app.use(express.json());
