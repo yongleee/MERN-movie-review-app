@@ -19,7 +19,7 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
             },
           }
         );
-        console.log(response.statusText);
+        console.log(response);
         dispatch({ type: "SET_REVIEWS", payload: response.data.reviews });
         setTotalPages(response.data.totalPages);
       } else if (hasCheckedMovieId) {
