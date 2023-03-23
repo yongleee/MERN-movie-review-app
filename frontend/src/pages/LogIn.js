@@ -24,11 +24,9 @@ export default function LogIn() {
       const response = await axios.post("/api/auths/login", user, {
         withCredentials: true,
       });
-      if (response.statusText === "OK") {
-        setAuth(response.data);
-        console.log(response.data);
-        navigate("/");
-      }
+      console.log(response);
+      setAuth(response.data);
+      navigate("/");
     } catch (err) {
       const {
         response: { data },
