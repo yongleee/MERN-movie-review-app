@@ -11,8 +11,8 @@ export const useRefreshToken = () => {
       });
 
       setAuth((prev) => {
-        console.log(`refresh prev ${JSON.stringify(prev)}`);
-        console.log(`refresh ${JSON.stringify(response.data)}`);
+        // console.log(`refresh prev ${JSON.stringify(prev)}`);
+        // console.log(`refresh ${JSON.stringify(response.data)}`);
         return {
           username: response.data.username,
           email: response.data.email,

@@ -19,7 +19,6 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
             },
           }
         );
-        console.log(response);
         dispatch({ type: "SET_REVIEWS", payload: response.data.reviews });
         setTotalPages(response.data.totalPages);
       } else if (hasCheckedMovieId) {
@@ -29,7 +28,6 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
 
     fetchReviewsByMovieId();
   }, [page, hasCheckedMovieId, movieIdForDB, dispatch]);
-  console.log(reviews);
 
   const handlePrevious = () => {
     setPage(Math.max(1, page - 1));

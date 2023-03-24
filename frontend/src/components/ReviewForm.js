@@ -56,7 +56,6 @@ export default function ReviewForm({ movieTitle, movieIdForDB, hasAddedToWL }) {
           }
         );
         setToggleWL((prev) => !prev);
-        console.log(response);
       } catch (err) {
         console.error(err);
       }

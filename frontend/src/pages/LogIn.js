@@ -24,7 +24,6 @@ export default function LogIn() {
       const response = await axios.post("/api/auths/login", user, {
         withCredentials: true,
       });
-      console.log(response);
       setAuth(response.data);
       navigate("/");
     } catch (err) {

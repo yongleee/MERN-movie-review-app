@@ -7,7 +7,7 @@ const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
   const { auth } = useAuthContext();
-  console.log(auth);
+  // console.log(auth);
 
   useEffect(() => {
     let isMounted = true;
@@ -29,8 +29,8 @@ const PersistLogin = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
+    // console.log(`isLoading: ${isLoading}`);
+    // console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
     // eslint-disable-next-line
   }, [isLoading]);
 
