@@ -22,7 +22,8 @@ const forgotPassword = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    const url = `http://localhost:3000/reset-password/${accessToken}`;
+    // const url = `http://localhost:3000/reset-password/${accessToken}`;
+    const url = `https://kinopicks.onrender.com/reset-password/${accessToken}`;
     const username = user.username;
     sendEmailReset(email, url, username);
 

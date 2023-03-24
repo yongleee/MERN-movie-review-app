@@ -33,7 +33,7 @@ export default function ResetPassword() {
     setValidMatch(match);
     if (match) {
       try {
-        const response = await axiosPrivate.post("/api/users/reset-password", {
+        await axiosPrivate.post("/api/users/reset-password", {
           password,
         });
         setAuth(null);

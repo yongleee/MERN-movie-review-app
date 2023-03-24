@@ -24,7 +24,7 @@ export default function SignUp() {
       const newUser = { email, password, username };
 
       try {
-        const response = await axios.post("/api/users/sign-up", newUser, {
+        await axios.post("/api/users/sign-up", newUser, {
           withCredentials: true,
         });
         navigate("/log-in");
