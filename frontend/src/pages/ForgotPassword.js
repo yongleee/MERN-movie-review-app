@@ -12,16 +12,14 @@ export default function ForgotPassword() {
     setErrorMsg("");
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "/api/users/forgot-password",
         { email },
         {
           withCredentials: true,
         }
       );
-      if (response.statusText === "OK") {
-        setIsSubmitted(true);
-      }
+      setIsSubmitted(true);
     } catch (err) {
       const {
         response: { data },

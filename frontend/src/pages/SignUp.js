@@ -27,9 +27,7 @@ export default function SignUp() {
         const response = await axios.post("/api/users/sign-up", newUser, {
           withCredentials: true,
         });
-        if (response.statusText === "OK") {
-          navigate("/log-in");
-        }
+        navigate("/log-in");
       } catch (err) {
         const {
           response: { data },

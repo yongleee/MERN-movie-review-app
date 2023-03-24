@@ -39,9 +39,7 @@ export default function UserSettings() {
         const response = await axiosPrivate.delete(
           `/api/users/edit-user-info/${userId}`
         );
-        if (response.statusText === "OK") {
-          setAuth(null);
-        }
+        setAuth(null);
       } catch (err) {
         console.error(err);
       }

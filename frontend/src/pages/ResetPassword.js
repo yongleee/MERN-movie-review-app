@@ -36,10 +36,8 @@ export default function ResetPassword() {
         const response = await axiosPrivate.post("/api/users/reset-password", {
           password,
         });
-        if (response.statusText === "OK") {
-          setAuth(null);
-          navigate("/log-in");
-        }
+        setAuth(null);
+        navigate("/log-in");
       } catch (err) {
         const {
           response: { data },

@@ -42,10 +42,12 @@ export default function ReviewCards({
     setShowConfirm(false);
 
     if (result) {
-      const response = await axiosPrivate.delete(`/api/reviews/${id}`);
+      try {
+        const response = await axiosPrivate.delete(`/api/reviews/${id}`);
 
-      if (response.statusText === "OK") {
         dispatch({ type: "DELETE_REVIEW", payload: response.data });
+      } catch (err) {
+        console.error(err);
       }
     }
   };

@@ -13,14 +13,16 @@ const UserReviews = () => {
 
   useEffect(() => {
     const fetchReviewsByUserId = async (id) => {
-      const response = await axios.get(`/api/reviews/by-user/${id}`, {
-        params: {
-          page,
-        },
-      });
-      if (response.statusText === "OK") {
+      try {
+        const response = await axios.get(`/api/reviews/by-user/${id}`, {
+          params: {
+            page,
+          },
+        });
         dispatch({ type: "SET_REVIEWS", payload: response.data.reviews });
         setTotalPages(response.data.totalPages);
+      } catch (err) {
+        console.error(err);
       }
     };
 

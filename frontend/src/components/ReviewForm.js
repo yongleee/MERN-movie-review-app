@@ -35,9 +35,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB, hasAddedToWL }) {
       try {
         const response = await axios.post("/api/reviews", review);
         setErrorReview(null);
-        if (response.statusText === "OK") {
-          dispatch({ type: "CREATE_REVIEW", payload: response.data });
-        }
+        dispatch({ type: "CREATE_REVIEW", payload: response.data });
       } catch (err) {
         const {
           response: { data },
@@ -57,9 +55,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB, hasAddedToWL }) {
             movieId,
           }
         );
-        if (response.statusText === "OK") {
-          setToggleWL((prev) => !prev);
-        }
+        setToggleWL((prev) => !prev);
         console.log(response);
       } catch (err) {
         console.error(err);
