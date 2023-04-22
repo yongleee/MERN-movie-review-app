@@ -57,7 +57,7 @@ export default function UserReviewCards({
   // TODO: styling: work on double confirm delete for user using modal
   return (
     <li>
-      <div className="py-4 px-5 w-11/12 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg my-3">
+      <div className="py-4 px-5 md:w-11/12 w-full border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg my-3">
         <div className="flex">
           <p className="text-neutral-400">
             <span className="text-neutral-200 hover:text-neutral-200/75">
