@@ -49,12 +49,9 @@ export default function ReviewForm({ movieTitle, movieIdForDB, hasAddedToWL }) {
   const handleClickWatchlist = async () => {
     if (userId && movieId !== "NO_ID" && movieId) {
       try {
-        const response = await axiosPrivate.patch(
-          `/api/users/update-watchlist/${userId}`,
-          {
-            movieId,
-          }
-        );
+        await axiosPrivate.patch(`/api/users/update-watchlist/${userId}`, {
+          movieId,
+        });
         setToggleWL((prev) => !prev);
       } catch (err) {
         console.error(err);
@@ -64,7 +61,7 @@ export default function ReviewForm({ movieTitle, movieIdForDB, hasAddedToWL }) {
 
   // TODO: Stying: Work on: "if empty fields when submit show error messages with tailwind" when working on styling
   return (
-    <div className="py-4 px-5 mb-5 w-11/12 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
+    <div className="py-4 px-5 mb-5 md:w-11/12 w-full border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
       {auth?.email ? (
         <button onClick={handleClickWatchlist} className="mb-3">
           {!toggleWL ? (

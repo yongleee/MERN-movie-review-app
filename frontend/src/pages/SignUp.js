@@ -40,10 +40,10 @@ export default function SignUp() {
   return (
     <div className="py-16">
       <h1 className="text-center text-2xl mb-6 text-neutral-400">Sign Up</h1>
-      <div className="mx-auto w-96 p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
+      <div className="mx-auto sm:w-96 max-w-sm p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
         <form
           onSubmit={handleSubmit}
-          className="font-OpenSans text-sm text-neutral-200 font-thin"
+          className="font-OpenSans text-sm text-neutral-200 font-thin max-w-xs mx-auto"
         >
           <label htmlFor="email" className="block pb-1.5 text-xs">
             Email
@@ -53,7 +53,7 @@ export default function SignUp() {
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           <label htmlFor="username" className="block pt-4 pb-1.5 text-xs">
             Username
@@ -64,7 +64,7 @@ export default function SignUp() {
             onChange={(e) => setUsername(e.target.value)}
             value={username}
             autoComplete="username"
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           <label htmlFor="password" className="block pt-4 pb-1.5 text-xs">
             Password
@@ -75,7 +75,7 @@ export default function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             autoComplete="new-password"
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           <label htmlFor="matchPwd" className="block pt-4 pb-1.5 text-xs">
             Confirm Password
@@ -86,7 +86,7 @@ export default function SignUp() {
             onChange={(e) => setMatchPwd(e.target.value)}
             value={matchPwd}
             autoComplete="new-password"
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           {!validMatch && <p>Password doesn't match.</p>}
           {errorMsg && (

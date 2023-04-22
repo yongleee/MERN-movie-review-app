@@ -37,10 +37,10 @@ export default function LogIn() {
   return (
     <div className="py-16">
       <h1 className="text-center text-2xl mb-6 text-neutral-400">Log In</h1>
-      <div className="mx-auto w-96 p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
+      <div className="mx-auto sm:w-96 max-w-sm p-8 border border-neutral-500 bg-neutral-600/50 rounded drop-shadow-lg">
         <form
           onSubmit={handleSubmit}
-          className="font-OpenSans text-sm text-neutral-200 font-thin"
+          className="font-OpenSans text-sm text-neutral-200 font-thin max-w-xs mx-auto"
         >
           <label htmlFor="emailOrUsername" className="block pb-1.5 text-xs">
             Email or Username
@@ -50,7 +50,7 @@ export default function LogIn() {
             type="text"
             onChange={(e) => setEmailOrUsername(e.target.value)}
             value={emailOrUsername}
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           <label htmlFor="password" className="block pt-4 pb-1.5 text-xs">
             Password
@@ -60,7 +60,7 @@ export default function LogIn() {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-            className="w-80 h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
+            className="w-full h-6 pl-1.5 rounded-sm outline-0 text-neutral-200 bg-neutral-500 focus:bg-neutral-50 focus:text-neutral-900"
           />
           {errorMsg && (
             <p className="text-xs pt-1 text-red-500 font-semibold">

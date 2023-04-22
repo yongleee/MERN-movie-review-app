@@ -53,7 +53,7 @@ export default function ReviewList({ movieIdForDB, hasCheckedMovieId }) {
           ))}
       </ul>
       {totalPages > 1 && (
-        <ul className="flex justify-between w-11/12 text-sm my-4">
+        <ul className="flex justify-between md:w-11/12 w-full text-sm my-4">
           <li className="w-1/3">
             {page !== 1 && (
               <button
