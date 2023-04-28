@@ -34,7 +34,11 @@ const PersistLogin = () => {
     // eslint-disable-next-line
   }, [isLoading]);
 
-  return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
+  return (
+    <>
+      {isLoading ? <p className="text-neutral-300">Loading...</p> : <Outlet />}
+    </>
+  );
 };
 
 export default PersistLogin;
