@@ -38,7 +38,7 @@ const PersistLogin = () => {
 		<>
 			{isLoading ? (
 				<p className="text-neutral-300">
-					Loading... This may take up to 30 seconds
+					Loading... This may take up to 30 seconds.
 				</p>
 			) : (
 				<Outlet />
